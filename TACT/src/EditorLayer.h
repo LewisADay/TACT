@@ -1,8 +1,11 @@
 #pragma once
 
+#include <vector>
+
 #include "imgui.h"
 
 #include "Walnut/Layer.h"
+#include "Node.h"
 
 class EditorLayer : public Walnut::Layer {
 public:
@@ -14,4 +17,6 @@ public:
 	void RenderMainwindow();
 
 private:
+
+	std::vector<Node> m_Nodes;
 };

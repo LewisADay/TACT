@@ -1,13 +1,19 @@
 
 #include "imgui.h"
 
+#include "imnodes.h"
+
 #include "EditorLayer.h"
 
 
 void EditorLayer::OnAttach() {
+	ImNodes::CreateContext();
+
+	m_Nodes.emplace_back(1);
 }
 
 void EditorLayer::OnDetach() {
+	ImNodes::DestroyContext();
 }
 
 void EditorLayer::OnUIRender() {
@@ -22,7 +28,13 @@ void EditorLayer::RenderSidewindow() {
 }
 
 void EditorLayer::RenderMainwindow() {
-	ImGui::Begin("General Kenobi");
-	ImGui::ArrowButton("Test arrow button", ImGuiDir_Left);
+	ImGui::Begin("Editor");
+	ImNodes::BeginNodeEditor();
+
+	for each (Node node in m_Nodes) {
+		node.Render();
+	}
+
+	ImNodes::EndNodeEditor();
 	ImGui::End();
 }
