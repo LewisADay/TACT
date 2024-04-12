@@ -20,7 +20,7 @@ project "TACT"
 
     links
     {
-        "Walnut"
+        "Walnut",
     }
 
    targetdir ("../bin/" .. outputdir .. "/%{prj.name}")

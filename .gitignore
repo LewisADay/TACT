@@ -8,7 +8,8 @@ Walnut/bin-int/
 # The sln's and vcxproj's should be generated on clone by the setup util, not committed to the repo
 *.sln
 *.vcxproj
-*.vcsproj.user
+*.vcxproj.filters
+*.vcxproj.user
 
 ## C++ Standard GitIgnore source: https://github.com/github/gitignore/blob/main/C%2B%2B.gitignore
 # Prerequisites
