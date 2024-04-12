@@ -5,7 +5,14 @@ project "TACT"
    targetdir "bin/%{cfg.buildcfg}"
    staticruntime "off"
 
-   files { "src/**.h", "src/**.cpp" }
+   files
+   {
+      "src/**.h",
+      "src/**.cpp",
+      "../imnodes/imnodes.cpp",
+      "../imnodes/imnodes.h",
+      "../imnodes/imnodes_internal.h",
+   }
 
    includedirs
    {
@@ -14,13 +21,15 @@ project "TACT"
 
       "../Walnut/Walnut/src",
 
+      "../imnodes",
+
       "%{IncludeDir.VulkanSDK}",
       "%{IncludeDir.glm}",
    }
 
     links
     {
-        "Walnut"
+        "Walnut",
     }
 
    targetdir ("../bin/" .. outputdir .. "/%{prj.name}")
