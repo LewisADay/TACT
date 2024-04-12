@@ -16,7 +16,7 @@ Since Walnut is a Windows only wrapper for ImGui, you will require a Windows 11 
 
 ## Getting Started
 Due to the heavy reliance on [Walnut](https://github.com/StudioCherno/Walnut) we borrow it's setup procedure.
-Once you've cloned, run `scripts/Setup.bat` to generate Visual Studio 2022 solution/project files. Once you've opened the solution, you can run the TACT project to launch the creation tool.
+Once you've cloned, run `Setup.bat` to generate Visual Studio 2022 solution/project files. Once you've opened the solution, you can run the TACT project to launch the creation tool.
 
 ### 3rd party libaries
 - [Walnut](https://github.com/StudioCherno/Walnut)
