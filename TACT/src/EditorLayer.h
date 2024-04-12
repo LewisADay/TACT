@@ -19,4 +19,5 @@ public:
 private:
 
 	std::vector<Node> m_Nodes;
+	std::vector<std::pair<int, int>> m_Links;
 };
