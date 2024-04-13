@@ -1,4 +1,6 @@
 
+#include <functional>
+#include <iostream>
 
 #include "imgui.h"
 #include "misc/cpp/imgui_stdlib.h"
@@ -11,21 +13,38 @@ int Node::m_PinID = 0;
 
 Node::Node(int id) :
 	m_ID(id),
-	m_Title("New Node") {}
+	Title("New Node") {}
 
 void Node::Render() {
 	ImNodes::BeginNode(m_ID);
 
 	// START HERE
 	// TODO: Make input text work
-	// TODO: Fork Walnut and push the premake changes I've made to build the std::string for of InputText (if it is necessary in the end)
-	// I kinda like the fixed char limit on the original so have a think about that
 	// TODO: Make an input area in the main node body for text if a prompt/description node
 	// TODO: Make a logic area for the main node body for control flow if a logic node
 	
 	// Start the title bar (simple text)
 	ImNodes::BeginNodeTitleBar();
-	ImGui::InputText("", &m_Title, ImGuiInputTextFlags_AlwaysOverwrite);
+
+	// For some reason the popup's immediately crash when you try to create them
+	// I think the input text problem is related to the node environment
+	/*
+	// Text edit window
+	if (ImGui::Button("", ImVec2(20, 20))) {
+		ImGui::BeginPopup("Text Editor");
+
+		std::string usrInput = "";
+		ImGui::InputText("", &usrInput);
+
+		if (ImGui::Button("Save")) {
+			m_Title = usrInput;
+		}
+
+		ImGui::EndPopup();
+	};
+	*/
+
+	ImGui::Text(Title.c_str());
 	ImNodes::EndNodeTitleBar();
 
 	// Input attributes

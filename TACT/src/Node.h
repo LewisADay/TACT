@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 
-#include "Link.h"
 #include "Pin.h"
 
 /// <summary>
@@ -53,6 +52,13 @@ public: // Public methods
 	/// <param name="id">The ID of the output pin to remove</param>
 	void RemoveOutputPin(int id);
 
+public: // Public members
+
+	/// <summary>
+	/// The title of the node
+	/// </summary>
+	std::string Title;
+
 private: // Private methods
 
 	// Some SFINAE because one ought to show off to prospective employers I suppose
@@ -80,11 +86,6 @@ private: // Private members
 	/// Unique node ID
 	/// </summary>
 	int m_ID;
-
-	/// <summary>
-	/// The title of the node
-	/// </summary>
-	std::string m_Title;
 
 	std::vector<InputPin> m_InputPins;
 	std::vector<OutputPin> m_OutputPins;

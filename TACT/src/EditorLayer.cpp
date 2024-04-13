@@ -1,7 +1,9 @@
 
-#include "imgui.h"
+#include <iostream>
 
+#include "imgui.h"
 #include "imnodes.h"
+#include "misc/cpp/imgui_stdlib.h"
 
 #include "EditorLayer.h"
 
@@ -24,12 +26,36 @@ void EditorLayer::OnDetach() {
 void EditorLayer::OnUIRender() {
 	RenderSidewindow();
 	RenderMainwindow();
+	CheckLinks();
+	UpdateSidewindow();
 }
 
 void EditorLayer::RenderSidewindow() {
 	ImGui::Begin("Hello There");
-	ImGui::Button("Button");
+
+	if (m_ActiveNode) {
+		RenderActiveNodeData();
+	}
+	else {
+		ImGui::Text("Select a node to customize it.");
+	}
+	
 	ImGui::End();
+}
+
+void EditorLayer::RenderActiveNodeData() {
+
+	// Don't be dereferencing things we shouldn't be dereferencing
+	assert(m_ActiveNode != nullptr);
+
+	// Maybe remove - uneccessary extra area title perhaps
+	// maybe just add vspace instead; UI/UX question, not going to focus on it
+	ImGui::Text("Node Selected");
+
+	// Title
+	ImGui::Text("Title: ");
+	ImGui::SameLine();
+	ImGui::InputText("##", &m_ActiveNode->Title);
 }
 
 void EditorLayer::RenderMainwindow() {
@@ -48,12 +74,35 @@ void EditorLayer::RenderMainwindow() {
 	}
 
 	ImNodes::EndNodeEditor();
+	ImGui::End();
+}
 
+void EditorLayer::CheckLinks() {
 	// Check for new links
-	int start_attr, end_attr;
-	if (ImNodes::IsLinkCreated(&start_attr, &end_attr)) {
-		m_Links.push_back(std::make_pair(start_attr, end_attr));
+	{
+		int start_attr, end_attr;
+		if (ImNodes::IsLinkCreated(&start_attr, &end_attr)) {
+			m_Links.push_back(std::make_pair(start_attr, end_attr));
+		}
 	}
 
-	ImGui::End();
+	// Check for deleted links
+	{
+		// Due to how we submit links, the id is NECCESSARILLY it's index in the links vector
+		int id;
+		if (ImNodes::IsLinkDestroyed(&id)) {
+			m_Links.erase(std::next(m_Links.begin(), id));
+		}
+	}
+}
+
+void EditorLayer::UpdateSidewindow() {
+	int nodeID;
+	if (ImNodes::IsNodeHovered(&nodeID) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+		for (int k = 0; k < m_Nodes.size(); ++k) {
+			if (m_Nodes[k].GetID() == nodeID) {
+				m_ActiveNode = &m_Nodes[k];
+			}
+		}
+	}
 }
