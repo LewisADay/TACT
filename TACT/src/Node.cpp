@@ -1,6 +1,7 @@
 
 
 #include "imgui.h"
+#include "misc/cpp/imgui_stdlib.h"
 #include "imnodes.h"
 
 #include "Node.h"
@@ -9,14 +10,22 @@
 int Node::m_PinID = 0;
 
 Node::Node(int id) :
-	m_ID(id) {}
+	m_ID(id),
+	m_Title("New Node") {}
 
 void Node::Render() {
 	ImNodes::BeginNode(m_ID);
 
+	// START HERE
+	// TODO: Make input text work
+	// TODO: Fork Walnut and push the premake changes I've made to build the std::string for of InputText (if it is necessary in the end)
+	// I kinda like the fixed char limit on the original so have a think about that
+	// TODO: Make an input area in the main node body for text if a prompt/description node
+	// TODO: Make a logic area for the main node body for control flow if a logic node
+	
 	// Start the title bar (simple text)
 	ImNodes::BeginNodeTitleBar();
-	ImGui::Text("Test Node");
+	ImGui::InputText("", &m_Title, ImGuiInputTextFlags_AlwaysOverwrite);
 	ImNodes::EndNodeTitleBar();
 
 	// Input attributes
@@ -28,9 +37,6 @@ void Node::Render() {
 	for each (OutputPin outPin in m_OutputPins) {
 		outPin.Render();
 	}
-
-	int tmp = reinterpret_cast<Pin*>(&m_InputPins[0])->GetID();
-	
 
 	ImNodes::EndNode();
 }

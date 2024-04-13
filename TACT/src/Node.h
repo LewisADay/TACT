@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 #include "Link.h"
 #include "Pin.h"
@@ -9,7 +10,7 @@
 /// A node on the flow map
 /// </summary>
 class Node {
-public:
+public: // Public methods
 
 	/// <summary>
 	/// Construct a node with ID id.
@@ -52,7 +53,7 @@ public:
 	/// <param name="id">The ID of the output pin to remove</param>
 	void RemoveOutputPin(int id);
 
-private:
+private: // Private methods
 
 	// Some SFINAE because one ought to show off to prospective employers I suppose
 	// Not sure it's the best suited to this use case but here is a use of it
@@ -61,7 +62,19 @@ private:
 	template<typename TPinType, typename TEnable = std::enable_if<std::is_base_of_v<Pin, TPinType>>>
 	void RemovePin(int id, std::vector<TPinType>& pinVec);
 
-private:
+private: // Private static members
+
+	/// <summary>
+	/// Shared incrementing pin ID amungst Nodes (pin ids must be globally unique)
+	/// </summary>
+	static int m_PinID;
+
+	/// <summary>
+	/// How long do we permit the title to be (in characters)
+	/// </summary>
+	static const size_t m_TitleLength = 128;
+
+private: // Private members
 
 	/// <summary>
 	/// Unique node ID
@@ -69,9 +82,9 @@ private:
 	int m_ID;
 
 	/// <summary>
-	/// Shared incrementing pin ID amungst Nodes (pin ids must be globally unique)
+	/// The title of the node
 	/// </summary>
-	static int m_PinID;
+	std::string m_Title;
 
 	std::vector<InputPin> m_InputPins;
 	std::vector<OutputPin> m_OutputPins;
