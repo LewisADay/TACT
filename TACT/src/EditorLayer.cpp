@@ -33,10 +33,15 @@ void EditorLayer::OnUIRender() {
 }
 
 // TODO
-void EditorLayer::Save(){}
+void EditorLayer::Save() {
+	// Serialise the m_Nodes and m_Links vectors
+	// Will probably need to use reflection to get the node types
+	// so they can be serialised
+	// Record the m_Nodes ID's and those ID's positions
+}
 
 // TODO
-void EditorLayer::Load(){}
+void EditorLayer::Load() {}
 
 void EditorLayer::BuildGame() {
 	TextAdventureGame game(m_Nodes, m_Links);
