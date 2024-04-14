@@ -60,7 +60,7 @@ int Node::AddInputPin() {
 	return id;
 }
 
-void Node::RemoveInputPin(int id) { RemovePin(id, m_InputPins); }
+void Node::RemoveInputPin(const int& id) { RemovePin(id, m_InputPins); }
 
 int Node::AddOutputPin() {
 	int id = GetNextPinID();
@@ -68,7 +68,7 @@ int Node::AddOutputPin() {
 	return id;
 }
 
-void Node::RemoveOutputPin(int id) { RemovePin(id, m_OutputPins); }
+void Node::RemoveOutputPin(const int& id) { RemovePin(id, m_OutputPins); }
 
 int Node::GetNextPinID() { return ++_PinID; }
 

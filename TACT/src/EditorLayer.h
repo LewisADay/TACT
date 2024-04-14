@@ -54,7 +54,7 @@ private:
 	void SelectedNodeManagement();
 	void RightClickMenu();
 	int GetNextNodeID();
-	void NewNode(NodeType type);
+	void NewNode(const NodeType& type);
 	void NewTextNode();
 
 private:

@@ -4,7 +4,7 @@ class Pin {
 public: // Public methods
 
 	/// <summary>
-	/// Create a flow pin with id 'id'
+	/// Construct a pin
 	/// </summary>
 	/// <param name="id">ID of new pin</param>
 	Pin(int id);

@@ -117,7 +117,10 @@ void EditorLayer::SelectedNodeManagement() {
 	}
 }
 
+// 
 void EditorLayer::RightClickMenu() {
+
+	// See if we wish to open the right click menu
 	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows)
         && ImNodes::IsEditorHovered()
 		&& ImGui::IsMouseClicked(ImGuiMouseButton_Right))
@@ -125,28 +128,39 @@ void EditorLayer::RightClickMenu() {
 		ImGui::OpenPopup("##RightClickMenu");
 	}
 
+	// If we want to open the menu, this is it's description
 	if (ImGui::BeginPopup("##RightClickMenu")) {
-		// Maybe make an enum so we can call a Add(enum) method
-		// which then calls the appropriate AddXXX method, e.g. AddTextNode()
+
+		// The selected node to add
 		int selection = -1;
+
+		// Vector of available options (currently only TextNodes are implemented)
 		std::vector<char*> options = { "Text Node" };
+
+		// TODO: Styling, borders etc. (It looks quite squashed)
+		// Menu title and horizontal separator
 		ImGui::Text("---- Add Node ----");
 		ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+
+		// Display options as selectables and record what is selected
 		for (int k = 0; k < options.size(); ++k) {
 			if (ImGui::Selectable(options[k])) { selection = k; }
 		}
+
+		// End of popup description
 		ImGui::EndPopup();
 
 		// Early return if we haven't selected anything
 		if (selection == -1) { return; }
 
+		// Make new node
 		NewNode(static_cast<NodeType>(selection));
 	}
 }
 
 int EditorLayer::GetNextNodeID() { return ++_NodeID; }
 
-void EditorLayer::NewNode(NodeType type) {
+void EditorLayer::NewNode(const NodeType& type) {
 	switch (type)
 	{
 	case EditorLayer::Text:

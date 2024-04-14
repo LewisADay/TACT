@@ -13,9 +13,9 @@ class Node {
 public: // Public methods
 
 	/// <summary>
-	/// Construct a node with ID id.
+	/// Construct a node
 	/// </summary>
-	/// <param name="id"></param>
+	/// <param name="id">ID of new node</param>
 	Node(int id);
 
 	/// <summary>
@@ -39,7 +39,7 @@ public: // Public methods
 	/// Remove an input pin by ID
 	/// </summary>
 	/// <param name="id">The ID of the input pin to remove</param>
-	void RemoveInputPin(int id);
+	void RemoveInputPin(const int& id);
 
 	/// <summary>
 	/// Add an output pin
@@ -51,10 +51,10 @@ public: // Public methods
 	/// Remove an output pin by ID
 	/// </summary>
 	/// <param name="id">The ID of the output pin to remove</param>
-	void RemoveOutputPin(int id);
+	void RemoveOutputPin(const int& id);
 
 	/// <summary>
-	/// Render the node core content to be implemented by derived classes
+	/// Render the node's core content
 	/// </summary>
 	virtual void RenderContent() = 0;
 
@@ -105,9 +105,4 @@ private: // Private static members
 	/// Shared incrementing pin ID amungst Nodes (pin ids must be globally unique)
 	/// </summary>
 	static inline int _PinID = 0; // Not m_ as access should be via GetNextPinID
-
-	/// <summary>
-	/// How long do we permit the title to be (in characters)
-	/// </summary>
-	static const size_t m_TitleLength = 128;
 };
