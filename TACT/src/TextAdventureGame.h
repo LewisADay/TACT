@@ -27,7 +27,10 @@ public: // Public methods
 	/// <returns>If the game generated successfully</returns>
 	bool Generate(std::string& errStr);
 
-private:
+private: // Private methods
+	std::vector<const std::shared_ptr<Node>&> GetDownstreamNodes(const int& id);
+
+private: // Private members
 	const std::shared_ptr<SourceNode> m_SourceNode;
 	const std::vector<std::shared_ptr<Node>>& m_Nodes;
 	const std::vector<std::pair<int, int>>& m_Links;
