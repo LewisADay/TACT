@@ -3,7 +3,8 @@
 #include <vector>
 #include <string>
 
-#include "Pin.h"
+#include "InputPin.h"
+#include "OutputPin.h"
 
 /// <summary>
 /// A node on the flow map
@@ -78,7 +79,7 @@ protected: // protected members
 
 	std::vector<InputPin> m_InputPins;
 	std::vector<OutputPin> m_OutputPins;
-
+	
 private: // Private methods
 
 	// Some SFINAE because one ought to show off to prospective employers I suppose

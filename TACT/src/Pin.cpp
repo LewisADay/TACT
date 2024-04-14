@@ -49,11 +49,3 @@ void Pin::RenderIntPin() {
 	ImGui::Text("0");
 	EndAttribute();
 }
-
-void InputPin::StartAttribute() { ImNodes::BeginInputAttribute(GetID()); }
-
-void InputPin::EndAttribute() { ImNodes::EndInputAttribute(); }
-
-void OutputPin::StartAttribute() { ImNodes::BeginOutputAttribute(GetID()); }
-
-void OutputPin::EndAttribute() { ImNodes::EndOutputAttribute(); }

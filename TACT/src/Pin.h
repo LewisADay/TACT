@@ -52,21 +52,3 @@ private: // Private members
 	int m_ID;
 	PinType m_PinType;
 };
-
-class InputPin : public Pin {
-public:
-	InputPin(int id) : Pin(id) {}
-	InputPin(int id, PinType type) : Pin(id, type) {}
-private:
-	void StartAttribute() override;
-	void EndAttribute() override;
-};
-
-class OutputPin : public Pin {
-public:
-	OutputPin(int id) : Pin(id) {}
-	OutputPin(int id, PinType type) : Pin(id, type) {}
-private:
-	void StartAttribute() override;
-	void EndAttribute() override;
-};
