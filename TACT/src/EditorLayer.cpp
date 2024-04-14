@@ -5,19 +5,20 @@
 #include "imgui.h"
 #include "imnodes.h"
 #include "misc/cpp/imgui_stdlib.h"
+#include "imgui_internal.h" // SeparatorEx
 
 #include "EditorLayer.h"
-#include "TextNode.h"
+#include "Nodes/TextNode.h"
+#include "Nodes/SourceNode.h"
+#include "TextAdventureGame.h"
 
 
 void EditorLayer::OnAttach() {
 	ImNodes::CreateContext();
 
-	std::shared_ptr<TextNode> textNode1 = std::make_shared<TextNode>(1);
-	textNode1->AddInputPin();
-	textNode1->AddOutputPin();
-
-	m_Nodes.push_back(textNode1);
+	// Create the source node
+	std::shared_ptr<SourceNode> m_SourceNode = std::make_shared<SourceNode>();
+	m_Nodes.push_back(m_SourceNode);
 }
 
 void EditorLayer::OnDetach() {
@@ -27,12 +28,34 @@ void EditorLayer::OnDetach() {
 void EditorLayer::OnUIRender() {
 	RenderSidewindow();
 	RenderMainwindow();
-	CheckLinks();
-	CheckForNewSelectedNode();
+	LinkOperations();
+	SelectedNodeManagement();
+}
+
+// TODO
+void EditorLayer::Save() {
+	// Serialise the m_Nodes and m_Links vectors
+	// Will probably need to use reflection to get the node types
+	// so they can be serialised
+	// Record the m_Nodes ID's and those ID's positions
+}
+
+// TODO
+void EditorLayer::Load() {}
+
+void EditorLayer::GenerateGame() {
+	TextAdventureGame game(m_SourceNode, m_Nodes, m_Links);
+	std::string errStr;
+	if (!game.Generate(errStr)) {
+		// TODO
+		// Log error string - probably add logging in general too
+		std::cerr << "Error building game!\n" + errStr << std::endl;
+		// Report to the user
+	}
 }
 
 void EditorLayer::RenderSidewindow() {
-	ImGui::Begin("Hello There");
+	ImGui::Begin("Properties");
 
 	if (m_ActiveNode) { m_ActiveNode->RenderProperties(); }
 	else { ImGui::Text("Select a node to customize it."); }
@@ -43,6 +66,8 @@ void EditorLayer::RenderSidewindow() {
 void EditorLayer::RenderMainwindow() {
 	ImGui::Begin("Editor");
 	ImNodes::BeginNodeEditor();
+
+	RightClickMenu();
 
 	// TODO
 	// Can probably make this const reference - but need to check the const-ness
@@ -62,7 +87,7 @@ void EditorLayer::RenderMainwindow() {
 	ImGui::End();
 }
 
-void EditorLayer::CheckLinks() {
+void EditorLayer::LinkOperations() {
 	// Check for new links
 	{
 		int start_attr, end_attr;
@@ -81,7 +106,7 @@ void EditorLayer::CheckLinks() {
 	}
 }
 
-void EditorLayer::CheckForNewSelectedNode() {
+void EditorLayer::SelectedNodeManagement() {
 	int nodeID;
 	if (ImNodes::IsNodeHovered(&nodeID) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 		for (int k = 0; k < m_Nodes.size(); ++k) {
@@ -90,4 +115,69 @@ void EditorLayer::CheckForNewSelectedNode() {
 			}
 		}
 	}
+}
+
+// 
+void EditorLayer::RightClickMenu() {
+
+	// See if we wish to open the right click menu
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows)
+        && ImNodes::IsEditorHovered()
+		&& ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+	{
+		ImGui::OpenPopup("##RightClickMenu");
+	}
+
+	// If we want to open the menu, this is it's description
+	if (ImGui::BeginPopup("##RightClickMenu")) {
+
+		// The selected node to add
+		int selection = -1;
+
+		// Vector of available options (currently only TextNodes are implemented)
+		std::vector<char*> options = { "Text Node" };
+
+		// TODO: Styling, borders etc. (It looks quite squashed)
+		// Menu title and horizontal separator
+		ImGui::Text("---- Add Node ----");
+		ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+
+		// Display options as selectables and record what is selected
+		for (int k = 0; k < options.size(); ++k) {
+			if (ImGui::Selectable(options[k])) { selection = k; }
+		}
+
+		// End of popup description
+		ImGui::EndPopup();
+
+		// Early return if we haven't selected anything
+		if (selection == -1) { return; }
+
+		// Make new node
+		NewNode(static_cast<NodeType>(selection));
+	}
+}
+
+int EditorLayer::GetNextNodeID() { return ++_NodeID; }
+
+void EditorLayer::NewNode(const NodeType& type) {
+	switch (type)
+	{
+	case EditorLayer::Text:
+		NewTextNode();
+		break;
+	default: // Default should probably throw or otherwise log TODO
+		break;
+	}
+}
+
+void EditorLayer::NewTextNode() {
+	int id = GetNextNodeID();
+	std::shared_ptr<TextNode> textNode = std::make_shared<TextNode>(id);
+	textNode->AddInputPin();
+	textNode->AddOutputPin();
+	
+	ImNodes::SetNodeScreenSpacePos(id, ImGui::GetMousePos());
+
+	m_Nodes.push_back(textNode);
 }

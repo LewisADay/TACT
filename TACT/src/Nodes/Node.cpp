@@ -4,12 +4,10 @@
 
 #include "imgui.h"
 #include "misc/cpp/imgui_stdlib.h"
+#include "imgui_internal.h"
 #include "imnodes.h"
 
 #include "Node.h"
-
-// Init Pin ID
-int Node::m_PinID = 0;
 
 Node::Node(int id) :
 	m_ID(id),
@@ -26,23 +24,26 @@ void Node::Render() {
 
 	// Input attributes
 	ImGui::BeginGroup();
-	ImGui::Text("Inputs");
 	for each (InputPin inPin in m_InputPins) {
 		inPin.Render();
 	}
 	ImGui::EndGroup();
+
 	ImGui::SameLine();
+	//ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+	//ImGui::SameLine();
 
 	// Main Content
 	ImGui::BeginGroup();
-	ImGui::Text("Content");
 	RenderContent();
 	ImGui::EndGroup();
-	ImGui::SameLine();
 	
+	ImGui::SameLine();
+	ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+	ImGui::SameLine();
+
 	// Output attributes
 	ImGui::BeginGroup();
-	ImGui::Text("Outputs");
 	for each (OutputPin outPin in m_OutputPins) {
 		outPin.Render();
 	}
@@ -53,13 +54,23 @@ void Node::Render() {
 
 int Node::GetID() const { return m_ID; }
 
-int Node::AddInputPin() { m_InputPins.emplace_back(++m_PinID); return m_PinID; }
+int Node::AddInputPin() {
+	int id = GetNextPinID();
+	m_InputPins.emplace_back(id);
+	return id;
+}
 
-void Node::RemoveInputPin(int id) { RemovePin(id, m_InputPins); }
+void Node::RemoveInputPin(const int& id) { RemovePin(id, m_InputPins); }
 
-int Node::AddOutputPin() { m_OutputPins.emplace_back(++m_PinID); return m_PinID; }
+int Node::AddOutputPin() {
+	int id = GetNextPinID();
+	m_OutputPins.emplace_back(id);
+	return id;
+}
 
-void Node::RemoveOutputPin(int id) { RemovePin(id, m_OutputPins); }
+void Node::RemoveOutputPin(const int& id) { RemovePin(id, m_OutputPins); }
+
+int Node::GetNextPinID() { return ++_PinID; }
 
 template<typename TPinType, typename TEnable>
 void Node::RemovePin(int id, std::vector<TPinType>& pinVec) {
@@ -75,5 +86,5 @@ void Node::RemovePin(int id, std::vector<TPinType>& pinVec) {
 	// If we've iterated through all pins and haven't found the pin asked for we have been asked
 	// to remove a non-existent pin, this should probably throw an exception or otherwise log
 	// this annomalous occurence - this is left as a future idea
-	// [TODO] ^ this
+	// TODO ^ this
 }

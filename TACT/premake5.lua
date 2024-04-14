@@ -25,6 +25,8 @@ project "TACT"
 
       "%{IncludeDir.VulkanSDK}",
       "%{IncludeDir.glm}",
+
+      "src",
    }
 
     links
