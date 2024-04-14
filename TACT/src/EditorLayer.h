@@ -6,6 +6,7 @@
 
 #include "Walnut/Layer.h"
 #include "Nodes/Node.h"
+#include "Nodes/SourceNode.h"
 
 class EditorLayer : public Walnut::Layer {
 public: // Public enums and classes
@@ -31,6 +32,21 @@ public:
 	/// </summary>
 	virtual void OnUIRender() override;
 
+	/// <summary>
+	/// Save the state of the editor and open a save dialog
+	/// </summary>
+	void Save();
+
+	/// <summary>
+	/// Open a file load dialog and load the editor state from the selected file
+	/// </summary>
+	void Load();
+
+	/// <summary>
+	/// Compile the game described in the editor
+	/// </summary>
+	void BuildGame();
+
 private:
 	void RenderSidewindow();
 	void RenderMainwindow();
@@ -46,5 +62,6 @@ private:
 	std::vector<std::shared_ptr<Node>> m_Nodes;
 	std::shared_ptr<Node> m_ActiveNode;
 	std::vector<std::pair<int, int>> m_Links;
+	std::shared_ptr<SourceNode> m_SourceNode;
 	int _NodeID; // Not m_ as should only be used if you know what you're doing, use GetNextNodeID().
 };

@@ -9,10 +9,16 @@
 
 #include "EditorLayer.h"
 #include "Nodes/TextNode.h"
+#include "Nodes/SourceNode.h"
+#include "TextAdventureGame.h"
 
 
 void EditorLayer::OnAttach() {
 	ImNodes::CreateContext();
+
+	// Create the source node
+	std::shared_ptr<SourceNode> m_SourceNode = std::make_shared<SourceNode>();
+	m_Nodes.push_back(m_SourceNode);
 }
 
 void EditorLayer::OnDetach() {
@@ -24,6 +30,23 @@ void EditorLayer::OnUIRender() {
 	RenderMainwindow();
 	LinkOperations();
 	SelectedNodeManagement();
+}
+
+// TODO
+void EditorLayer::Save(){}
+
+// TODO
+void EditorLayer::Load(){}
+
+void EditorLayer::BuildGame() {
+	TextAdventureGame game(m_Nodes, m_Links);
+	std::string errStr;
+	if (!game.Build(errStr)) {
+		// TODO
+		// Log error string - probably add logging in general too
+		std::cerr << "Error building game!\n" + errStr << std::endl;
+		// Report to the user
+	}
 }
 
 void EditorLayer::RenderSidewindow() {
