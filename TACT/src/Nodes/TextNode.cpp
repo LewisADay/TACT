@@ -46,7 +46,9 @@ void TextNode::RenderProperties() {
 
 		// Display pin
 		ImGui::SameLine();
+		ImGui::BeginGroup();
 		pin.RenderProperties();
+		ImGui::EndGroup();
 	}
 
 	// ==== Output Pins ====
@@ -68,6 +70,8 @@ void TextNode::RenderProperties() {
 
 		// Display pin
 		ImGui::SameLine();
+		ImGui::BeginGroup();
 		pin.RenderProperties();
+		ImGui::EndGroup();
 	}
 }
