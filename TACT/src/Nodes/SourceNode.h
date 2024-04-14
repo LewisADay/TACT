@@ -4,6 +4,15 @@
 
 #include "Node.h"
 
+// Should probably be a singleton - perhaps
+// Since we shouldn't have multiple source nodes
+// This is achieved at the moment by not allowing
+// the user to add any and there being one by default
+// But should probably be properly enforced by code not convention
+
+/// <summary>
+/// The node to act as the source for the control flow of the Text Adventure Game
+/// </summary>
 class SourceNode : public Node {
 public: // Public methods
 
