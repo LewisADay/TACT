@@ -28,14 +28,15 @@ bool TextAdventureGame::Generate(std::string& errStr) {
 
 // TODO: Search pin's instead/figure out what we actually want to do
 // when it comes to constructing the game and then maybe have another look
-std::vector<const std::shared_ptr<Node>&> TextAdventureGame::GetDownstreamNodes(const int& id) {
+std::vector<std::shared_ptr<Node>> TextAdventureGame::GetDownstreamNodes(const int& id) {
 
 	// It occurs to me that I've searched as if m_Links is a vector of
 	// pairs of Node IDs, when it's a vector of pairs of Pin IDs.
 
 	// Vector to store the result
-	std::vector<const std::shared_ptr<Node>&> downstreamNodes;
+	std::vector<std::shared_ptr<Node>> downstreamNodes;
 
+	
 	// Iterate over the links
 	for (int k = 0; k < m_Links.size(); ++k) {
 		const std::pair<int, int>& link = m_Links[k];
@@ -53,6 +54,7 @@ std::vector<const std::shared_ptr<Node>&> TextAdventureGame::GetDownstreamNodes(
 			}
 		}
 	}
+	
 	return downstreamNodes;
 }
 
