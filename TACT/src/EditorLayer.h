@@ -15,16 +15,14 @@ public:
 
 private:
 	void RenderSidewindow();
-	void RenderActiveNodeData();
 	void RenderMainwindow();
 	void CheckLinks();
-	void UpdateSidewindow();
+	void CheckForNewSelectedNode();
 
 private:
 
-	std::vector<Node> m_Nodes;
-	Node* m_ActiveNode; // TODO: Think of a way to smart ptr this/otherwise refactor to avoid raw ptrs
-	//int m_ActiveNode;
+	std::vector<std::shared_ptr<Node>> m_Nodes;
+	std::shared_ptr<Node> m_ActiveNode;
 	std::vector<std::pair<int, int>> m_Links;
 	std::string tmp = "";
 };

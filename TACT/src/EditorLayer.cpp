@@ -1,22 +1,23 @@
 
 #include <iostream>
+#include <memory>
 
 #include "imgui.h"
 #include "imnodes.h"
 #include "misc/cpp/imgui_stdlib.h"
 
 #include "EditorLayer.h"
+#include "TextNode.h"
 
 
 void EditorLayer::OnAttach() {
 	ImNodes::CreateContext();
 
-	m_Nodes.emplace_back(1);
-	m_Nodes[0].AddInputPin();
-	m_Nodes[0].AddOutputPin();
-	m_Nodes.emplace_back(2);
-	m_Nodes[1].AddInputPin();
-	m_Nodes[1].AddOutputPin();
+	std::shared_ptr<TextNode> textNode1 = std::make_shared<TextNode>(1);
+	textNode1->AddInputPin();
+	textNode1->AddOutputPin();
+
+	m_Nodes.push_back(textNode1);
 }
 
 void EditorLayer::OnDetach() {
@@ -27,44 +28,28 @@ void EditorLayer::OnUIRender() {
 	RenderSidewindow();
 	RenderMainwindow();
 	CheckLinks();
-	UpdateSidewindow();
+	CheckForNewSelectedNode();
 }
 
 void EditorLayer::RenderSidewindow() {
 	ImGui::Begin("Hello There");
 
-	if (m_ActiveNode) {
-		RenderActiveNodeData();
-	}
-	else {
-		ImGui::Text("Select a node to customize it.");
-	}
+	if (m_ActiveNode) { m_ActiveNode->RenderProperties(); }
+	else { ImGui::Text("Select a node to customize it."); }
 	
 	ImGui::End();
-}
-
-void EditorLayer::RenderActiveNodeData() {
-
-	// Don't be dereferencing things we shouldn't be dereferencing
-	assert(m_ActiveNode != nullptr);
-
-	// Maybe remove - uneccessary extra area title perhaps
-	// maybe just add vspace instead; UI/UX question, not going to focus on it
-	ImGui::Text("Node Selected");
-
-	// Title
-	ImGui::Text("Title: ");
-	ImGui::SameLine();
-	ImGui::InputText("##", &m_ActiveNode->Title);
 }
 
 void EditorLayer::RenderMainwindow() {
 	ImGui::Begin("Editor");
 	ImNodes::BeginNodeEditor();
 
+	// TODO
+	// Can probably make this const reference - but need to check the const-ness
+	// of Render, it should be, in which case that can be refactored at a later date
 	// Render the nodes
-	for each (Node node in m_Nodes) {
-		node.Render();
+	for (auto& node : m_Nodes) {
+		node->Render();
 	}
 
 	// Render the links (using index as ID for ImNodes)
@@ -96,12 +81,12 @@ void EditorLayer::CheckLinks() {
 	}
 }
 
-void EditorLayer::UpdateSidewindow() {
+void EditorLayer::CheckForNewSelectedNode() {
 	int nodeID;
 	if (ImNodes::IsNodeHovered(&nodeID) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 		for (int k = 0; k < m_Nodes.size(); ++k) {
-			if (m_Nodes[k].GetID() == nodeID) {
-				m_ActiveNode = &m_Nodes[k];
+			if (m_Nodes[k]->GetID() == nodeID) {
+				m_ActiveNode = m_Nodes[k]; // Shared ptr ref++
 			}
 		}
 	}

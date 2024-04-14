@@ -52,12 +52,32 @@ public: // Public methods
 	/// <param name="id">The ID of the output pin to remove</param>
 	void RemoveOutputPin(int id);
 
+	/// <summary>
+	/// Render the node core content to be implemented by derived classes
+	/// </summary>
+	virtual void RenderContent() = 0;
+
+	/// <summary>
+	/// Render the node's properties for editing in the properties window
+	/// </summary>
+	virtual void RenderProperties() = 0;
+
 public: // Public members
 
 	/// <summary>
 	/// The title of the node
 	/// </summary>
 	std::string Title;
+
+protected: // protected members
+
+	/// <summary>
+	/// Unique node ID
+	/// </summary>
+	int m_ID;
+
+	std::vector<InputPin> m_InputPins;
+	std::vector<OutputPin> m_OutputPins;
 
 private: // Private methods
 
@@ -79,14 +99,4 @@ private: // Private static members
 	/// How long do we permit the title to be (in characters)
 	/// </summary>
 	static const size_t m_TitleLength = 128;
-
-private: // Private members
-
-	/// <summary>
-	/// Unique node ID
-	/// </summary>
-	int m_ID;
-
-	std::vector<InputPin> m_InputPins;
-	std::vector<OutputPin> m_OutputPins;
 };

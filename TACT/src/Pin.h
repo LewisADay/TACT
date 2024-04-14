@@ -2,31 +2,44 @@
 
 class Pin {
 public: // Public enums and classes
+
 	enum PinType {
 		Flow = 0,
 		Text,
-		Int
+		Int,
+		UsrInput,
 	};
 
 public: // Public methods
-	Pin(int id) :
-		m_ID(id),
-		m_PinType(Flow) {}
-
-	Pin(int id, PinType type) :
-		m_ID(id),
-		m_PinType(type) {}
 
 	/// <summary>
-	/// Render this pin (to be called by the owning node)
+	/// Create a flow pin with id 'id'
+	/// </summary>
+	/// <param name="id">ID of new pin</param>
+	Pin(int id);
+
+	/// <summary>
+	/// Create a pin with id 'id' and of type 'type'
+	/// </summary>
+	/// <param name="id">ID of new pin</param>
+	/// <param name="type">Type of new pin</param>
+	Pin(int id, PinType type);
+
+	/// <summary>
+	/// Render the pin (to be called by the owning node)
 	/// </summary>
 	virtual void Render();
+
+	/// <summary>
+	/// Render the pin's properties for editing in the properties window
+	/// </summary>
+	virtual void RenderProperties();
 
 	/// <summary>
 	/// Return the pin's ID
 	/// </summary>
 	/// <returns>The pin's ID</returns>
-	virtual int GetID();
+	virtual int GetID() const;
 
 private: // Private methods
 	virtual void StartAttribute() = 0;

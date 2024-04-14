@@ -16,46 +16,37 @@ Node::Node(int id) :
 	Title("New Node") {}
 
 void Node::Render() {
-	ImNodes::BeginNode(m_ID);
 
-	// START HERE
-	// TODO: Make input text work
-	// TODO: Make an input area in the main node body for text if a prompt/description node
-	// TODO: Make a logic area for the main node body for control flow if a logic node
+	ImNodes::BeginNode(m_ID);
 	
 	// Start the title bar (simple text)
 	ImNodes::BeginNodeTitleBar();
-
-	// For some reason the popup's immediately crash when you try to create them
-	// I think the input text problem is related to the node environment
-	/*
-	// Text edit window
-	if (ImGui::Button("", ImVec2(20, 20))) {
-		ImGui::BeginPopup("Text Editor");
-
-		std::string usrInput = "";
-		ImGui::InputText("", &usrInput);
-
-		if (ImGui::Button("Save")) {
-			m_Title = usrInput;
-		}
-
-		ImGui::EndPopup();
-	};
-	*/
-
 	ImGui::Text(Title.c_str());
 	ImNodes::EndNodeTitleBar();
 
 	// Input attributes
+	ImGui::BeginGroup();
+	ImGui::Text("Inputs");
 	for each (InputPin inPin in m_InputPins) {
 		inPin.Render();
 	}
+	ImGui::EndGroup();
+	ImGui::SameLine();
+
+	// Main Content
+	ImGui::BeginGroup();
+	ImGui::Text("Content");
+	RenderContent();
+	ImGui::EndGroup();
+	ImGui::SameLine();
 	
 	// Output attributes
+	ImGui::BeginGroup();
+	ImGui::Text("Outputs");
 	for each (OutputPin outPin in m_OutputPins) {
 		outPin.Render();
 	}
+	ImGui::EndGroup();
 
 	ImNodes::EndNode();
 }
