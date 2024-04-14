@@ -1,5 +1,6 @@
 
 #include "imnodes.h"
+#include "misc/cpp/imgui_stdlib.h"
 
 #include "OutputPin.h"
 
@@ -41,9 +42,20 @@ void OutputPin::Render() {
 }
 
 void OutputPin::RenderProperties() {
-	int selection = m_PinType;
 	ImGui::PushID(m_ID);
-	ImGui::Combo("##PinType", &selection, "User Input\0Invalid Input");
-	m_PinType = static_cast<PinType>(selection);
+
+	{// Select the type of the pin
+		int selection = m_PinType;
+		ImGui::Combo("##PinType", &selection, "User Input\0Invalid Input");
+		m_PinType = static_cast<PinType>(selection);
+	}
+
+	// If a usr output pin, what user response will this map to
+	if (m_PinType == UserInput) {
+		ImGui::Text("Match Text: ");
+		ImGui::SameLine();
+		ImGui::InputText("##MatchText", &m_MatchString);
+	}
+
 	ImGui::PopID();
 }
