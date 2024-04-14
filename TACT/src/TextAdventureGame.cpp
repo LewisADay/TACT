@@ -14,12 +14,6 @@ bool TextAdventureGame::Generate(std::string& errStr) {
 
 	// Get source node and start tracing the paths
 	int sourceID = m_SourceNode->GetID();
-	auto firstLink = std::find_if(
-		m_Links.begin(),
-		m_Links.end(),
-		[sourceID](const std::pair<int, int>& link) {
-			return link.first == sourceID;
-		});
 
 	// do something with that
 
