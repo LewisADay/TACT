@@ -31,8 +31,13 @@ void OutputPin::Render() {
 	ImNodes::BeginOutputAttribute(m_ID);
 
 	switch (m_PinType) {
-	case UserInput: ImGui::Text("User Input"); break;
-	case InvalidInput: ImGui::Text("Invalid Input"); break;
+	case UserInput:
+		if (m_MatchString.empty()) { ImGui::Text("Set User Input"); }
+		else { ImGui::Text(m_MatchString.c_str()); }
+		break;
+	case InvalidInput:
+		ImGui::Text("Invalid Input");
+		break;
 	// TODO
 	// Probably add an exception for default condition - we are a pin type that isn't defined
 	// or hasn't been addded to this swtich
