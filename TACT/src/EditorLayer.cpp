@@ -55,7 +55,7 @@ void EditorLayer::GenerateGame() {
 }
 
 void EditorLayer::RenderSidewindow() {
-	ImGui::Begin("Hello There");
+	ImGui::Begin("Properties");
 
 	if (m_ActiveNode) { m_ActiveNode->RenderProperties(); }
 	else { ImGui::Text("Select a node to customize it."); }
