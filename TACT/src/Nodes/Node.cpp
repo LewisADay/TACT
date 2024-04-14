@@ -4,6 +4,7 @@
 
 #include "imgui.h"
 #include "misc/cpp/imgui_stdlib.h"
+#include "imgui_internal.h"
 #include "imnodes.h"
 
 #include "Node.h"
@@ -23,26 +24,26 @@ void Node::Render() {
 
 	// Input attributes
 	ImGui::BeginGroup();
-	// Inputs are just flow in pins at the moment
-	// Uncomment if more advanced inputs occur which print lables
-	// in their Render() call.
-	//ImGui::Text("Inputs");
 	for each (InputPin inPin in m_InputPins) {
 		inPin.Render();
 	}
 	ImGui::EndGroup();
+
 	ImGui::SameLine();
+	//ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+	//ImGui::SameLine();
 
 	// Main Content
 	ImGui::BeginGroup();
-	ImGui::Text("Content");
 	RenderContent();
 	ImGui::EndGroup();
-	ImGui::SameLine();
 	
+	ImGui::SameLine();
+	ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+	ImGui::SameLine();
+
 	// Output attributes
 	ImGui::BeginGroup();
-	ImGui::Text("Outputs");
 	for each (OutputPin outPin in m_OutputPins) {
 		outPin.Render();
 	}

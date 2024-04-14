@@ -15,7 +15,9 @@ void InputPin::Render() {
 	ImNodes::BeginInputAttribute(m_ID);
 
 	switch (m_PinType) {
-	case Flow: break; // We don't add text or anything to flow nodes
+	case Flow:
+		ImGui::Dummy(ImVec2(0.0f, ImGui::GetTextLineHeight()));
+		break; // We don't add text or anything to flow nodes
 		// TODO
 		// Probably add an exception for default condition - we are a pin type that isn't defined
 		// or hasn't been addded to this swtich
