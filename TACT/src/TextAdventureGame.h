@@ -28,6 +28,7 @@ public: // Public methods
 	bool Generate(std::string& errStr);
 
 private:
+	const std::shared_ptr<SourceNode> m_SourceNode;
 	const std::vector<std::shared_ptr<Node>>& m_Nodes;
 	const std::vector<std::pair<int, int>>& m_Links;
 };
