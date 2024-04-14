@@ -21,7 +21,7 @@ public: // Public methods
 	/// <summary>
 	/// Render the node (as part of the primary ImGui loop)
 	/// </summary>
-	void Render();
+	virtual void Render();
 
 	/// <summary>
 	/// Retrieve the unique node ID

@@ -38,6 +38,8 @@ void OutputPin::Render() {
 	case InvalidInput:
 		ImGui::Text("Invalid Input");
 		break;
+	case Flow:
+		break;
 	// TODO
 	// Probably add an exception for default condition - we are a pin type that isn't defined
 	// or hasn't been addded to this swtich

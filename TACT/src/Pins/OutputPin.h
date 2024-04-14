@@ -8,7 +8,8 @@ class OutputPin : public Pin {
 public: // Public enums and classes
 	enum PinType {
 		UserInput,
-		InvalidInput
+		InvalidInput,
+		Flow,
 	};
 
 public: // Public methods
