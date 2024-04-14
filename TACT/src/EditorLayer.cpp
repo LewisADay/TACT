@@ -44,7 +44,7 @@ void EditorLayer::Save() {
 void EditorLayer::Load() {}
 
 void EditorLayer::GenerateGame() {
-	TextAdventureGame game(m_Nodes, m_Links);
+	TextAdventureGame game(m_SourceNode, m_Nodes, m_Links);
 	std::string errStr;
 	if (!game.Generate(errStr)) {
 		// TODO

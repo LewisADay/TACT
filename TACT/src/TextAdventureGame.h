@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "Nodes/Node.h"
+#include "Nodes/SourceNode.h"
 
 class TextAdventureGame {
 
@@ -14,7 +15,10 @@ public: // Public methods
 	/// </summary>
 	/// <param name="nodes"></param>
 	/// <param name="links"></param>
-	TextAdventureGame(const std::vector<std::shared_ptr<Node>>& nodes, const std::vector<std::pair<int, int>>& links);
+	TextAdventureGame(
+		const std::shared_ptr<SourceNode>& source,
+		const std::vector<std::shared_ptr<Node>>& nodes,
+		const std::vector<std::pair<int, int>>& links);
 
 	/// <summary>
 	/// Generate the game files
