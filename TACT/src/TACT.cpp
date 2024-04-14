@@ -22,8 +22,8 @@ Walnut::Application* Walnut::CreateApplication(int argc, char** argv) {
 			if (ImGui::MenuItem("Load")) {
 				editorLayer->Load();
 			}
-			if (ImGui::MenuItem("Build Game")) {
-				editorLayer->BuildGame();
+			if (ImGui::MenuItem("Generate Game")) {
+				editorLayer->GenerateGame();
 			}
 			if (ImGui::MenuItem("Exit")) {
 				app->Close();

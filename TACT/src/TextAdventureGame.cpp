@@ -5,6 +5,8 @@ TextAdventureGame::TextAdventureGame(const std::vector<std::shared_ptr<Node>>& n
 	m_Nodes(nodes),
 	m_Links(links) {}
 
-bool TextAdventureGame::Build(std::string& errStr) {
+bool TextAdventureGame::Generate(std::string& errStr) {
+
+
 	return true;
 }

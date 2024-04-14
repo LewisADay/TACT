@@ -17,11 +17,11 @@ public: // Public methods
 	TextAdventureGame(const std::vector<std::shared_ptr<Node>>& nodes, const std::vector<std::pair<int, int>>& links);
 
 	/// <summary>
-	/// Build the game
+	/// Generate the game files
 	/// </summary>
 	/// <param name="errStr">Error message, if an error occured</param>
-	/// <returns>If the build completed successfully</returns>
-	bool Build(std::string& errStr);
+	/// <returns>If the game generated successfully</returns>
+	bool Generate(std::string& errStr);
 
 private:
 	const std::vector<std::shared_ptr<Node>>& m_Nodes;

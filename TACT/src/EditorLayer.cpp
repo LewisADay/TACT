@@ -43,10 +43,10 @@ void EditorLayer::Save() {
 // TODO
 void EditorLayer::Load() {}
 
-void EditorLayer::BuildGame() {
+void EditorLayer::GenerateGame() {
 	TextAdventureGame game(m_Nodes, m_Links);
 	std::string errStr;
-	if (!game.Build(errStr)) {
+	if (!game.Generate(errStr)) {
 		// TODO
 		// Log error string - probably add logging in general too
 		std::cerr << "Error building game!\n" + errStr << std::endl;

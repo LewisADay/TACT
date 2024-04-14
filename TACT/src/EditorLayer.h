@@ -45,7 +45,7 @@ public:
 	/// <summary>
 	/// Compile the game described in the editor
 	/// </summary>
-	void BuildGame();
+	void GenerateGame();
 
 private:
 	void RenderSidewindow();
