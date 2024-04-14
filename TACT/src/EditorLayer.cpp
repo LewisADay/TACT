@@ -7,7 +7,7 @@
 #include "misc/cpp/imgui_stdlib.h"
 
 #include "EditorLayer.h"
-#include "TextNode.h"
+#include "Nodes/TextNode.h"
 
 
 void EditorLayer::OnAttach() {

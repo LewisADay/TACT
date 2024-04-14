@@ -3,8 +3,8 @@
 #include <vector>
 #include <string>
 
-#include "InputPin.h"
-#include "OutputPin.h"
+#include "Pins/InputPin.h"
+#include "Pins/OutputPin.h"
 
 /// <summary>
 /// A node on the flow map

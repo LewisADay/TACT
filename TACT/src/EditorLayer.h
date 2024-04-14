@@ -5,7 +5,7 @@
 #include "imgui.h"
 
 #include "Walnut/Layer.h"
-#include "Node.h"
+#include "Nodes/Node.h"
 
 class EditorLayer : public Walnut::Layer {
 public:
