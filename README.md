@@ -91,4 +91,5 @@ Which itself contains
   - [ ] Support nodes outputing values and being input to other nodes, e.g. player health
 - [ ] More node types
   - [ ] Logic node, apply logical statements to flow control, e.g. do this path when the player has more gold than x, and this path when they have less
+- [ ] General styling UI/UX improvements - it's functional as is, but could look a lot nicer
 - [ ] [Bug]Link deletion - this should work out of the box, really no idea why it's not working
