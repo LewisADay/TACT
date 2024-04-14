@@ -1,15 +1,6 @@
 #pragma once
 
 class Pin {
-public: // Public enums and classes
-
-	enum PinType {
-		Flow = 0,
-		Text,
-		Int,
-		UsrInput,
-	};
-
 public: // Public methods
 
 	/// <summary>
@@ -19,21 +10,14 @@ public: // Public methods
 	Pin(int id);
 
 	/// <summary>
-	/// Create a pin with id 'id' and of type 'type'
-	/// </summary>
-	/// <param name="id">ID of new pin</param>
-	/// <param name="type">Type of new pin</param>
-	Pin(int id, PinType type);
-
-	/// <summary>
 	/// Render the pin (to be called by the owning node)
 	/// </summary>
-	virtual void Render();
+	virtual void Render() = 0;
 
 	/// <summary>
 	/// Render the pin's properties for editing in the properties window
 	/// </summary>
-	virtual void RenderProperties();
+	virtual void RenderProperties() = 0;
 
 	/// <summary>
 	/// Return the pin's ID
@@ -41,14 +25,6 @@ public: // Public methods
 	/// <returns>The pin's ID</returns>
 	virtual int GetID() const;
 
-private: // Private methods
-	virtual void StartAttribute() = 0;
-	virtual void EndAttribute() = 0;
-	void RenderFlowPin();
-	void RenderTextPin();
-	void RenderIntPin();
-
-private: // Private members
+protected: // Protected members
 	int m_ID;
-	PinType m_PinType;
 };

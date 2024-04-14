@@ -70,12 +70,22 @@ public: // Public members
 	/// </summary>
 	std::string Title;
 
-protected: // protected members
+protected: // Protected static methods
+
+	/// <summary>
+	/// Generate the next pin ID
+	/// </summary>
+	/// <returns>New valid ID for a Pin</returns>
+	static int GetNextPinID();
+
+protected: // Protected members
 
 	/// <summary>
 	/// Unique node ID
 	/// </summary>
 	int m_ID;
+
+	// Maybe should convert these to the shared ptr paradigm
 
 	std::vector<InputPin> m_InputPins;
 	std::vector<OutputPin> m_OutputPins;
@@ -94,7 +104,7 @@ private: // Private static members
 	/// <summary>
 	/// Shared incrementing pin ID amungst Nodes (pin ids must be globally unique)
 	/// </summary>
-	static int m_PinID;
+	static inline int _PinID = 0; // Not m_ as access should be via GetNextPinID
 
 	/// <summary>
 	/// How long do we permit the title to be (in characters)

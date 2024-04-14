@@ -4,22 +4,9 @@
 #include "Pin.h"
 
 Pin::Pin(int id) :
-	m_ID(id),
-	m_PinType(Flow) {}
+	m_ID(id) {}
 
-Pin::Pin(int id, PinType type) :
-	m_ID(id),
-	m_PinType(type) {}
-
-void Pin::Render() {
-	switch (m_PinType) {
-		case Flow: RenderFlowPin(); break;
-		case Text: RenderTextPin(); break;
-		case Int: RenderIntPin(); break;
-		default: RenderFlowPin(); break;
-	}
-}
-
+/*
 void Pin::RenderProperties() {
 	int selection = m_PinType;
 	ImGui::PushID(m_ID);
@@ -27,9 +14,11 @@ void Pin::RenderProperties() {
 	m_PinType = static_cast<PinType>(selection);
 	ImGui::PopID();
 }
+*/
 
 int Pin::GetID() const { return m_ID; }
 
+/*
 void Pin::RenderFlowPin() {
 	StartAttribute();
 	ImGui::Text("Flow");
@@ -49,3 +38,4 @@ void Pin::RenderIntPin() {
 	ImGui::Text("0");
 	EndAttribute();
 }
+*/
