@@ -5,6 +5,7 @@
 #include "imgui.h"
 #include "imnodes.h"
 #include "misc/cpp/imgui_stdlib.h"
+#include "imgui_internal.h" // SeparatorEx
 
 #include "EditorLayer.h"
 #include "Nodes/TextNode.h"
@@ -21,8 +22,8 @@ void EditorLayer::OnDetach() {
 void EditorLayer::OnUIRender() {
 	RenderSidewindow();
 	RenderMainwindow();
-	CheckLinks();
-	CheckForNewSelectedNode();
+	LinkOperations();
+	SelectedNodeManagement();
 }
 
 void EditorLayer::RenderSidewindow() {
@@ -37,6 +38,8 @@ void EditorLayer::RenderSidewindow() {
 void EditorLayer::RenderMainwindow() {
 	ImGui::Begin("Editor");
 	ImNodes::BeginNodeEditor();
+
+	RightClickMenu();
 
 	// TODO
 	// Can probably make this const reference - but need to check the const-ness
@@ -56,7 +59,7 @@ void EditorLayer::RenderMainwindow() {
 	ImGui::End();
 }
 
-void EditorLayer::CheckLinks() {
+void EditorLayer::LinkOperations() {
 	// Check for new links
 	{
 		int start_attr, end_attr;
@@ -75,7 +78,7 @@ void EditorLayer::CheckLinks() {
 	}
 }
 
-void EditorLayer::CheckForNewSelectedNode() {
+void EditorLayer::SelectedNodeManagement() {
 	int nodeID;
 	if (ImNodes::IsNodeHovered(&nodeID) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 		for (int k = 0; k < m_Nodes.size(); ++k) {
@@ -86,12 +89,53 @@ void EditorLayer::CheckForNewSelectedNode() {
 	}
 }
 
+void EditorLayer::RightClickMenu() {
+	if (ImGui::IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows)
+        && ImNodes::IsEditorHovered()
+		&& ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+	{
+		ImGui::OpenPopup("##RightClickMenu");
+	}
+
+	if (ImGui::BeginPopup("##RightClickMenu")) {
+		// Maybe make an enum so we can call a Add(enum) method
+		// which then calls the appropriate AddXXX method, e.g. AddTextNode()
+		int selection = -1;
+		std::vector<char*> options = { "Text Node" };
+		ImGui::Text("---- Add Node ----");
+		ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
+		for (int k = 0; k < options.size(); ++k) {
+			if (ImGui::Selectable(options[k])) { selection = k; }
+		}
+		ImGui::EndPopup();
+
+		// Early return if we haven't selected anything
+		if (selection == -1) { return; }
+
+		NewNode(static_cast<NodeType>(selection));
+	}
+}
+
 int EditorLayer::GetNextNodeID() { return ++_NodeID; }
 
+void EditorLayer::NewNode(NodeType type) {
+	switch (type)
+	{
+	case EditorLayer::Text:
+		NewTextNode();
+		break;
+	default: // Default should probably throw or otherwise log TODO
+		break;
+	}
+}
+
 void EditorLayer::NewTextNode() {
-	std::shared_ptr<TextNode> textNode = std::make_shared<TextNode>(GetNextNodeID());
+	int id = GetNextNodeID();
+	std::shared_ptr<TextNode> textNode = std::make_shared<TextNode>(id);
 	textNode->AddInputPin();
 	textNode->AddOutputPin();
+	
+	ImNodes::SetNodeScreenSpacePos(id, ImGui::GetMousePos());
 
 	m_Nodes.push_back(textNode);
 }

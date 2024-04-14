@@ -8,6 +8,12 @@
 #include "Nodes/Node.h"
 
 class EditorLayer : public Walnut::Layer {
+public: // Public enums and classes
+
+	enum NodeType {
+		Text,
+	};
+
 public:
 
 	/// <summary>
@@ -28,9 +34,11 @@ public:
 private:
 	void RenderSidewindow();
 	void RenderMainwindow();
-	void CheckLinks();
-	void CheckForNewSelectedNode();
+	void LinkOperations();
+	void SelectedNodeManagement();
+	void RightClickMenu();
 	int GetNextNodeID();
+	void NewNode(NodeType type);
 	void NewTextNode();
 
 private:
