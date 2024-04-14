@@ -30,11 +30,13 @@ private:
 	void RenderMainwindow();
 	void CheckLinks();
 	void CheckForNewSelectedNode();
+	int GetNextNodeID();
+	void NewTextNode();
 
 private:
 
 	std::vector<std::shared_ptr<Node>> m_Nodes;
 	std::shared_ptr<Node> m_ActiveNode;
 	std::vector<std::pair<int, int>> m_Links;
-	std::string tmp = "";
+	int _NodeID; // Not m_ as should only be used if you know what you're doing, use GetNextNodeID().
 };

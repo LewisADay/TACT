@@ -12,12 +12,6 @@
 
 void EditorLayer::OnAttach() {
 	ImNodes::CreateContext();
-
-	std::shared_ptr<TextNode> textNode1 = std::make_shared<TextNode>(1);
-	textNode1->AddInputPin();
-	textNode1->AddOutputPin();
-
-	m_Nodes.push_back(textNode1);
 }
 
 void EditorLayer::OnDetach() {
@@ -90,4 +84,14 @@ void EditorLayer::CheckForNewSelectedNode() {
 			}
 		}
 	}
+}
+
+int EditorLayer::GetNextNodeID() { return ++_NodeID; }
+
+void EditorLayer::NewTextNode() {
+	std::shared_ptr<TextNode> textNode = std::make_shared<TextNode>(GetNextNodeID());
+	textNode->AddInputPin();
+	textNode->AddOutputPin();
+
+	m_Nodes.push_back(textNode);
 }
