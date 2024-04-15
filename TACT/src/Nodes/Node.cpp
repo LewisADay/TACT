@@ -24,8 +24,8 @@ void Node::Render() {
 
 	// Input attributes
 	ImGui::BeginGroup();
-	for each (InputPin inPin in m_InputPins) {
-		inPin.Render();
+	for each (std::shared_ptr<InputPin>& inPin in m_InputPins) {
+		inPin->Render();
 	}
 	ImGui::EndGroup();
 
@@ -44,8 +44,8 @@ void Node::Render() {
 
 	// Output attributes
 	ImGui::BeginGroup();
-	for each (OutputPin outPin in m_OutputPins) {
-		outPin.Render();
+	for each (std::shared_ptr<OutputPin>& outPin in m_OutputPins) {
+		outPin->Render();
 	}
 	ImGui::EndGroup();
 
@@ -53,6 +53,10 @@ void Node::Render() {
 }
 
 int Node::GetID() const { return m_ID; }
+
+const std::vector<std::shared_ptr<InputPin>>& Node::GetInputPins() const { return m_InputPins; }
+
+const std::vector<std::shared_ptr<OutputPin>>& Node::GetOutputPins() const { return m_OutputPins; }
 
 int Node::AddInputPin() {
 	int id = GetNextPinID();

@@ -36,18 +36,18 @@ void TextNode::RenderProperties() {
 	}
 
 	// Display pin options
-	for (auto& pin : m_InputPins) {
+	for each (std::shared_ptr<InputPin>& pin in m_InputPins) {
 		// Delete button
-		ImGui::PushID(pin.GetID());
+		ImGui::PushID(pin->GetID());
 		if (ImGui::Button("-")) {
-			RemoveInputPin(pin.GetID());
+			RemoveInputPin(pin->GetID());
 		}
 		ImGui::PopID();
 
 		// Display pin
 		ImGui::SameLine();
 		ImGui::BeginGroup();
-		pin.RenderProperties();
+		pin->RenderProperties();
 		ImGui::EndGroup();
 	}
 
@@ -60,18 +60,18 @@ void TextNode::RenderProperties() {
 	}
 
 	// Display pin options
-	for (auto& pin : m_OutputPins) {
+	for each (std::shared_ptr<OutputPin>& pin in m_OutputPins) {
 		// Delete button
-		ImGui::PushID(pin.GetID());
+		ImGui::PushID(pin->GetID());
 		if (ImGui::Button("-")) {
-			RemoveOutputPin(pin.GetID());
+			RemoveOutputPin(pin->GetID());
 		}
 		ImGui::PopID();
 
 		// Display pin
 		ImGui::SameLine();
 		ImGui::BeginGroup();
-		pin.RenderProperties();
+		pin->RenderProperties();
 		ImGui::EndGroup();
 	}
 }

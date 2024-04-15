@@ -16,8 +16,8 @@ void SourceNode::Render() {
 
 	// Output attributes (should be only 1 for source)
 	ImGui::BeginGroup();
-	for each (OutputPin outPin in m_OutputPins) {
-		outPin.Render();
+	for each (std::shared_ptr<OutputPin>& outPin in m_OutputPins) {
+		outPin->Render();
 	}
 	ImGui::EndGroup();
 

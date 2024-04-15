@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "Pins/InputPin.h"
 #include "Pins/OutputPin.h"
@@ -28,6 +29,18 @@ public: // Public methods
 	/// </summary>
 	/// <returns>The node's ID</returns>
 	int GetID() const;
+
+	/// <summary>
+	/// Retrieve a const ref to the input pins vector
+	/// </summary>
+	/// <returns>A vector of the input pins of this node</returns>
+	const std::vector<std::shared_ptr<InputPin>>& GetInputPins() const;
+
+	/// <summary>
+	/// Retrieve a const ref to the output pins vector
+	/// </summary>
+	/// <returns>A vector of the output pins of this node</returns>
+	const std::vector<std::shared_ptr<OutputPin>>& GetOutputPins() const;
 
 	/// <summary>
 	/// Add an input pin
@@ -85,10 +98,8 @@ protected: // Protected members
 	/// </summary>
 	int m_ID;
 
-	// Maybe should convert these to the shared ptr paradigm
-
-	std::vector<InputPin> m_InputPins;
-	std::vector<OutputPin> m_OutputPins;
+	std::vector<std::shared_ptr<InputPin>> m_InputPins;
+	std::vector<std::shared_ptr<OutputPin>> m_OutputPins;
 	
 private: // Private methods
 
