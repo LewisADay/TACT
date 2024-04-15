@@ -66,3 +66,5 @@ void OutputPin::RenderProperties() {
 
 	ImGui::PopID();
 }
+
+const std::string& OutputPin::GetMatchString() { return m_MatchString; }
