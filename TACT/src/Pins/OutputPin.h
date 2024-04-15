@@ -46,6 +46,12 @@ public: // Public methods
 	virtual void RenderProperties() override;
 
 	/// <summary>
+	/// Retrieve the pin's type
+	/// </summary>
+	/// <returns>The type</returns>
+	const PinType& GetPinType();
+
+	/// <summary>
 	/// Retrieve the match string for the node
 	/// </summary>
 	/// <returns>The match string</returns>
