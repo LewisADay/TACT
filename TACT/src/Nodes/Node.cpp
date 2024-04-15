@@ -11,7 +11,8 @@
 
 Node::Node(int id) :
 	m_ID(id),
-	Title("New Node") {}
+	Title("New Node"),
+	m_ContentStr("") {}
 
 void Node::Render() {
 

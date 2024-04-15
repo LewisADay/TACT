@@ -75,3 +75,7 @@ void TextNode::RenderProperties() {
 		ImGui::EndGroup();
 	}
 }
+
+const std::string& TextNode::GetPrintableContent() {
+	return Text;
+}

@@ -33,6 +33,12 @@ public: // Public methods
 	/// </summary>
 	void RenderProperties() override;
 
+	/// <summary>
+	/// Get a printable string of the content of the node
+	/// </summary>
+	/// <returns>String to print</returns>
+	virtual const std::string& GetPrintableContent() override;
+
 public: // Public members
 
 	/// <summary>

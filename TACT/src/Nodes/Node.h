@@ -76,6 +76,12 @@ public: // Public methods
 	/// </summary>
 	virtual void RenderProperties() = 0;
 
+	/// <summary>
+	/// Get a printable string of the content of the node
+	/// </summary>
+	/// <returns>String to print</returns>
+	virtual const std::string& GetPrintableContent();
+
 public: // Public members
 
 	/// <summary>
@@ -98,6 +104,7 @@ protected: // Protected members
 	/// </summary>
 	int m_ID;
 
+	std::string m_ContentStr;
 	std::vector<std::shared_ptr<InputPin>> m_InputPins;
 	std::vector<std::shared_ptr<OutputPin>> m_OutputPins;
 	
