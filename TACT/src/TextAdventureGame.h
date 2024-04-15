@@ -10,12 +10,12 @@
 /// For generating Text Adventure Games from the editor information
 /// </summary>
 class TextAdventureGame {
-
 public: // Public methods
 
 	/// <summary>
 	/// Construct a new text adventure game
 	/// </summary>
+	/// <param name="source">Source node to use as TAG entrypoint</param>
 	/// <param name="nodes">Editor nodes used to construct the game</param>
 	/// <param name="links">Editor links used to construct the game</param>
 	TextAdventureGame( // We don't want to own any of these so we keep them as const references to prevent copies etc.
