@@ -12,8 +12,8 @@ I use [Walnut](https://github.com/StudioCherno/Walnut) as the base for this oper
 
 ### Requirements
 - Windows 11. Since Walnut is a Windows only (for now) wrapper for ImGui.
-- [Visual Studio 2022](https://visualstudio.com) (not strictly required, however included setup scripts only support this)
-- [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#windows) (preferably a recent version)
+- [Visual Studio 2022](https://visualstudio.com)
+- [Vulkan SDK](https://vulkan.lunarg.com/sdk/home#windows)
 
 ### Getting Started
 We utilise premake to generate solution files, whose use is conveniently abstracted to `Setup.bat`. Once you've cloned, run `Setup.bat` to generate Visual Studio 2022 solution/project files. Once you've opened the solution, you can run the TACT project to launch the creation tool.
