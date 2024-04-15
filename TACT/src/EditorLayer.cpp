@@ -17,7 +17,7 @@ void EditorLayer::OnAttach() {
 	ImNodes::CreateContext();
 
 	// Create the source node
-	std::shared_ptr<SourceNode> m_SourceNode = std::make_shared<SourceNode>();
+	m_SourceNode = std::make_shared<SourceNode>();
 	m_Nodes.push_back(m_SourceNode);
 }
 
