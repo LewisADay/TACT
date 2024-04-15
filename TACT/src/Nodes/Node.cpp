@@ -84,6 +84,8 @@ const std::string& Node::GetPrintableContent() {
 	return m_ContentStr;
 }
 
+bool Node::IsTerminating() { return m_TerminatingNode; }
+
 int Node::GetNextPinID() { return ++_PinID; }
 
 template<typename TPinType, typename TEnable>

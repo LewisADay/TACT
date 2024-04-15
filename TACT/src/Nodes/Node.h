@@ -82,6 +82,12 @@ public: // Public methods
 	/// <returns>String to print</returns>
 	virtual const std::string& GetPrintableContent();
 
+	/// <summary>
+	/// Is this node terminating
+	/// </summary>
+	/// <returns>If this node terminates the TAG</returns>
+	virtual bool IsTerminating();
+
 public: // Public members
 
 	/// <summary>
