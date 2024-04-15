@@ -104,6 +104,7 @@ protected: // Protected members
 	/// </summary>
 	int m_ID;
 
+	bool m_TerminatingNode;
 	std::string m_ContentStr;
 	std::vector<std::shared_ptr<InputPin>> m_InputPins;
 	std::vector<std::shared_ptr<OutputPin>> m_OutputPins;

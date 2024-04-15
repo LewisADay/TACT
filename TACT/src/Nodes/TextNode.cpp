@@ -22,6 +22,9 @@ void TextNode::RenderProperties() {
 	ImGui::SameLine();
 	ImGui::InputText("##Title", &Title);
 
+	// ==== Terminating? ====
+	ImGui::Checkbox("Terminating?", &m_TerminatingNode);
+
 	// ==== Text ====
 	ImGui::Text("Text: ");
 	ImGui::SameLine();
@@ -51,28 +54,30 @@ void TextNode::RenderProperties() {
 		ImGui::EndGroup();
 	}
 
-	// ==== Output Pins ====
-	ImGui::Text("Output Pins");
+	if (!m_TerminatingNode) {
+		// ==== Output Pins ====
+		ImGui::Text("Output Pins");
 
-	// Add button
-	if (ImGui::Button("+##OutputPins")) {
-		AddOutputPin();
-	}
-
-	// Display pin options
-	for (std::shared_ptr<OutputPin>& pin : m_OutputPins) {
-		// Delete button
-		ImGui::PushID(pin->GetID());
-		if (ImGui::Button("-")) {
-			RemoveOutputPin(pin->GetID());
+		// Add button
+		if (ImGui::Button("+##OutputPins")) {
+			AddOutputPin();
 		}
-		ImGui::PopID();
 
-		// Display pin
-		ImGui::SameLine();
-		ImGui::BeginGroup();
-		pin->RenderProperties();
-		ImGui::EndGroup();
+		// Display pin options
+		for (std::shared_ptr<OutputPin>& pin : m_OutputPins) {
+			// Delete button
+			ImGui::PushID(pin->GetID());
+			if (ImGui::Button("-")) {
+				RemoveOutputPin(pin->GetID());
+			}
+			ImGui::PopID();
+
+			// Display pin
+			ImGui::SameLine();
+			ImGui::BeginGroup();
+			pin->RenderProperties();
+			ImGui::EndGroup();
+		}
 	}
 }
 

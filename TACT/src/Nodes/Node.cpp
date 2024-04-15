@@ -12,7 +12,8 @@
 Node::Node(int id) :
 	m_ID(id),
 	Title("New Node"),
-	m_ContentStr("") {}
+	m_ContentStr(""),
+	m_TerminatingNode(false) {}
 
 void Node::Render() {
 
@@ -39,16 +40,19 @@ void Node::Render() {
 	RenderContent();
 	ImGui::EndGroup();
 	
-	ImGui::SameLine();
-	ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
-	ImGui::SameLine();
 
 	// Output attributes
-	ImGui::BeginGroup();
-	for (std::shared_ptr<OutputPin>& outPin : m_OutputPins) {
-		outPin->Render();
+	if (!m_TerminatingNode) {
+		ImGui::SameLine();
+		ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+		ImGui::SameLine();
+
+		ImGui::BeginGroup();
+		for (std::shared_ptr<OutputPin>& outPin : m_OutputPins) {
+			outPin->Render();
+		}
+		ImGui::EndGroup();
 	}
-	ImGui::EndGroup();
 
 	ImNodes::EndNode();
 }
