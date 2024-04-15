@@ -36,7 +36,7 @@ void TextNode::RenderProperties() {
 	}
 
 	// Display pin options
-	for each (std::shared_ptr<InputPin>& pin in m_InputPins) {
+	for (std::shared_ptr<InputPin>& pin : m_InputPins) {
 		// Delete button
 		ImGui::PushID(pin->GetID());
 		if (ImGui::Button("-")) {
@@ -60,7 +60,7 @@ void TextNode::RenderProperties() {
 	}
 
 	// Display pin options
-	for each (std::shared_ptr<OutputPin>& pin in m_OutputPins) {
+	for (std::shared_ptr<OutputPin>& pin : m_OutputPins) {
 		// Delete button
 		ImGui::PushID(pin->GetID());
 		if (ImGui::Button("-")) {

@@ -25,7 +25,7 @@ void Node::Render() {
 
 	// Input attributes
 	ImGui::BeginGroup();
-	for each (std::shared_ptr<InputPin>& inPin in m_InputPins) {
+	for (std::shared_ptr<InputPin>& inPin : m_InputPins) {
 		inPin->Render();
 	}
 	ImGui::EndGroup();
@@ -45,7 +45,7 @@ void Node::Render() {
 
 	// Output attributes
 	ImGui::BeginGroup();
-	for each (std::shared_ptr<OutputPin>& outPin in m_OutputPins) {
+	for (std::shared_ptr<OutputPin>& outPin : m_OutputPins) {
 		outPin->Render();
 	}
 	ImGui::EndGroup();
@@ -61,7 +61,7 @@ const std::vector<std::shared_ptr<OutputPin>>& Node::GetOutputPins() const { ret
 
 int Node::AddInputPin() {
 	int id = GetNextPinID();
-	m_InputPins.emplace_back(id);
+	m_InputPins.push_back(std::make_shared<InputPin>(id));
 	return id;
 }
 
@@ -69,11 +69,16 @@ void Node::RemoveInputPin(const int& id) { RemovePin(id, m_InputPins); }
 
 int Node::AddOutputPin() {
 	int id = GetNextPinID();
-	m_OutputPins.emplace_back(id);
+	m_OutputPins.push_back(std::make_shared<OutputPin>(id));
 	return id;
 }
 
 void Node::RemoveOutputPin(const int& id) { RemovePin(id, m_OutputPins); }
+
+const std::string& Node::GetPrintableContent() {
+	m_ContentStr = "";
+	return m_ContentStr;
+}
 
 int Node::GetNextPinID() { return ++_PinID; }
 

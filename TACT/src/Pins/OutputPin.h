@@ -49,13 +49,13 @@ public: // Public methods
 	/// Retrieve the pin's type
 	/// </summary>
 	/// <returns>The type</returns>
-	const PinType& GetPinType();
+	const PinType& GetPinType() const;
 
 	/// <summary>
 	/// Retrieve the match string for the node
 	/// </summary>
 	/// <returns>The match string</returns>
-	const std::string& GetMatchString();
+	const std::string& GetMatchString() const;
 
 private: // Private members
 	PinType m_PinType;
