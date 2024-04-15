@@ -57,8 +57,17 @@ void EditorLayer::GenerateGame() {
 void EditorLayer::RenderSidewindow() {
 	ImGui::Begin("Properties");
 
+	if (ImGui::Button("Help")) {
+		m_ActiveNode = nullptr;
+	}
+
 	if (m_ActiveNode) { m_ActiveNode->RenderProperties(); }
-	else { ImGui::Text("Select a node to customize it."); }
+	else {
+		ImGui::Bullet(); ImGui::TextWrapped("Left click-and-drag on a node to move it.");
+		ImGui::Bullet(); ImGui::TextWrapped("Left click on a node to display it's properties in this panel.");
+		ImGui::Bullet(); ImGui::TextWrapped("Middle mouse click-and-drag on the canvas to move the viewport.");
+		ImGui::Bullet(); ImGui::TextWrapped("Right click on the canvas to open the add new node menu.");
+	}
 	
 	ImGui::End();
 }
