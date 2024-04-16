@@ -18,6 +18,16 @@ I use [Walnut](https://github.com/StudioCherno/Walnut) as the base for this oper
 ### Getting Started
 We utilise premake to generate solution files, whose use is conveniently abstracted to `Setup.bat`. Once you've cloned, run `Setup.bat` to generate Visual Studio 2022 solution/project files. Once you've opened the solution, you can run the TACT project to launch the creation tool.
 
+For example to get started you could run the following commands:
+
+> git clone --recursive https://www.github.com/LewisADay/TACT \<dir\>
+> 
+> cd \<dir\>
+> 
+> .\Setup.bat
+> 
+> TACT.sln
+
 ## Usage Instructions
 
 For full usage instructions please see the [Usage Guide](USAGE.md)
