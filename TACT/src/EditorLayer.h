@@ -51,7 +51,7 @@ private:
 	void RenderSidewindow();
 	void RenderMainwindow();
 	void LinkOperations();
-	void SelectedNodeManagement();
+	void NodeOperations();
 	void RightClickMenu();
 	int GetNextNodeID();
 	void NewNode(const NodeType& type);

@@ -29,7 +29,7 @@ void EditorLayer::OnUIRender() {
 	RenderSidewindow();
 	RenderMainwindow();
 	LinkOperations();
-	SelectedNodeManagement();
+	NodeOperations();
 }
 
 // TODO
@@ -76,6 +76,7 @@ void EditorLayer::RenderSidewindow() {
 		ImGui::Bullet(); ImGui::TextWrapped("Left click on a node to display it's properties in this panel.");
 		ImGui::Bullet(); ImGui::TextWrapped("Middle mouse click-and-drag on the canvas to move the viewport.");
 		ImGui::Bullet(); ImGui::TextWrapped("Right click on the canvas to open the add new node menu.");
+		ImGui::Bullet(); ImGui::TextWrapped("Delete a node or link by selecting it and pressing DELETE.");
 		ImGui::Bullet(); ImGui::TextWrapped("Attach the source node to a text node to get started.");
 		ImGui::Bullet(); ImGui::TextWrapped("Each text node that ends the program should be marked as terminating in it's properties.");
 	}
@@ -108,6 +109,7 @@ void EditorLayer::RenderMainwindow() {
 }
 
 void EditorLayer::LinkOperations() {
+
 	// Check for new links
 	{
 		int start_attr, end_attr;
@@ -137,12 +139,27 @@ void EditorLayer::LinkOperations() {
 	}
 }
 
-void EditorLayer::SelectedNodeManagement() {
-	int nodeID;
-	if (ImNodes::IsNodeHovered(&nodeID) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+void EditorLayer::NodeOperations() {
+
+	{ // Node selection for properties
+		int nodeID;
+		if (ImNodes::IsNodeHovered(&nodeID) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+			for (int k = 0; k < m_Nodes.size(); ++k) {
+				if (m_Nodes[k]->GetID() == nodeID) {
+					m_ActiveNode = m_Nodes[k]; // Shared ptr ref++
+				}
+			}
+		}
+	}
+
+	{ // Node deletion
 		for (int k = 0; k < m_Nodes.size(); ++k) {
-			if (m_Nodes[k]->GetID() == nodeID) {
-				m_ActiveNode = m_Nodes[k]; // Shared ptr ref++
+			if (ImNodes::IsNodeSelected(k)
+				&& ImGui::IsKeyDown(ImGuiKey_Delete)
+				&& k != m_SourceNode->GetID())
+			{
+				m_Nodes.erase(std::next(m_Nodes.begin(), k));
+				m_ActiveNode = nullptr;
 			}
 		}
 	}
