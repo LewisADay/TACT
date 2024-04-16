@@ -112,6 +112,11 @@ void EditorLayer::LinkOperations() {
 	{
 		int start_attr, end_attr;
 		if (ImNodes::IsLinkCreated(&start_attr, &end_attr)) {
+			// Check to see if this pin already has a link
+			for (std::pair<int, int>& link : m_Links) {
+				if (link.first == start_attr) { return; }
+			}
+			// If not, add the link
 			m_Links.push_back(std::make_pair(start_attr, end_attr));
 		}
 	}
