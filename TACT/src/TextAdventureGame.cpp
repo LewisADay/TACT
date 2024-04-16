@@ -25,6 +25,12 @@ TextAdventureGame::TextAdventureGame(
 
 bool TextAdventureGame::Generate(std::string& errStr) {
 
+	// Copy original state of errStr
+	std::string originalStr = errStr;
+
+	// Clear err str
+	errStr = "";
+
 	// Start things off
 	m_OutputStream.clear();
 	m_OutputStream << "@echo off\n" << "title Text Adventure Game\n\n" << ":start\n";
@@ -39,12 +45,22 @@ bool TextAdventureGame::Generate(std::string& errStr) {
 		}
 	);
 
+	// If there is no link from the source node the graph is invalid
+	if (it == m_Links.end()) {
+		GetErrorStr(InvalidGraph, errStr);
+		GetErrorStr(UnlinkedSource, errStr);
+		return false;
+	}
+
 	// Goto that pin
 	m_OutputStream << "goto PIN" << it->second << "\n";
 
 	// Process each node
 	for (std::shared_ptr<Node> node : m_Nodes) {
-		ProcessNode(node);
+		if (!ProcessNode(node, errStr)) {
+			// Node process err, errStr should already be updated
+			return false;
+		}
 	}
 
 	std::ofstream tagDotBat("TAG.bat", std::ios::out);
@@ -54,7 +70,28 @@ bool TextAdventureGame::Generate(std::string& errStr) {
 
 	tagDotBat.close();
 
+	// Restore original state of errStr if we've got this far
+	// That is, we haven't errored out
+	errStr = originalStr;
+
 	return true;
+}
+
+std::string& TextAdventureGame::GetErrorStr(TAGErr err, std::string& str) {
+	switch (err) {
+	case TextAdventureGame::InvalidGraph:
+		str += "Invalid Graph!";
+		break;
+	case TextAdventureGame::UnlinkedSource:
+		str += "Unlinked Source!";
+		break;
+	case TextAdventureGame::ReachedNonTerminatingWithoutOutput:
+		str += "Reached non-terminating node without an output!";
+		break;
+	default:
+		break;
+	}
+	return str;
 }
 
 std::vector<std::shared_ptr<Node>> TextAdventureGame::GetDownstreamNodes(const std::shared_ptr<Node>& usNode) {
@@ -115,7 +152,7 @@ bool TextAdventureGame::HasInputPin(const std::shared_ptr<Node>& node, const int
 	return false;
 }
 
-void TextAdventureGame::ProcessNode(const std::shared_ptr<Node>& node) {
+bool TextAdventureGame::ProcessNode(const std::shared_ptr<Node>& node, std::string& errStr) {
 
 	// Make node label
 	m_OutputStream << ":NODE" << node->GetID() << "\n";
@@ -144,6 +181,13 @@ void TextAdventureGame::ProcessNode(const std::shared_ptr<Node>& node) {
 
 	// Get handle for the output pins
 	const std::vector<std::shared_ptr<OutputPin>>& oPins = node->GetOutputPins();
+
+	// Check for existence of some output pins
+	if (oPins.size() == 0) {
+		GetErrorStr(InvalidGraph, errStr);
+		GetErrorStr(ReachedNonTerminatingWithoutOutput, errStr);
+		return false;
+	}
 
 	// Print player options
 	for (auto& outPin : oPins) {

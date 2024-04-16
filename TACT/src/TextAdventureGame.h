@@ -31,14 +31,24 @@ public: // Public methods
 	/// <returns>If the game generated successfully</returns>
 	bool Generate(std::string& errStr);
 
+private: // Private enums and classes
+	enum TAGErr {
+		InvalidGraph,
+		UnlinkedSource,
+		ReachedNonTerminatingWithoutOutput
+	};
+
 private: // Private methods
 
 	// Relics of an older idea - left for future use when we abandon batch
 	std::vector<std::shared_ptr<Node>> GetDownstreamNodes(const std::shared_ptr<Node>& usNode);
 	bool HasInputPin(const std::shared_ptr<Node>& node, const int& id);
 
-	// TODO abandon batch
-	void ProcessNode(const std::shared_ptr<Node>& node);
+	// TODO Abandon batch
+	bool ProcessNode(const std::shared_ptr<Node>& node, std::string& errStr);
+
+	// TODO Rename
+	std::string& GetErrorStr(TAGErr err, std::string& str);
 
 	//void AddUserChoiceSection
 private: // Private members
@@ -47,5 +57,4 @@ private: // Private members
 	const std::vector<std::pair<int, int>>& m_Links;
 	const std::string m_OutputFilePath = "TAG.bat"; // TODO: Use something other than batch as an output
 	std::ostringstream m_OutputStream;
-
 };
