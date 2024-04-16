@@ -35,6 +35,7 @@ For full usage instructions please see the [Usage Guide](USAGE.md)
   - [ ] Support nodes outputing values and being input to other nodes, e.g. player health
 - [ ] More node types
   - [ ] Logic node, apply logical statements to flow control, e.g. do this path when the player has more gold than x, and this path when they have less
+- [ ] Input sanitisation
 - [ ] General styling UI/UX improvements - it's functional as is, but could look a lot nicer
 
 ## 3rd party libaries
