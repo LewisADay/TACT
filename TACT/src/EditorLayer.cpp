@@ -50,26 +50,27 @@ void EditorLayer::GenerateGame() {
 		// Report to the user
 		m_GenerationErr = true;
 		m_GenerationErrStr = errStr;
+		// Remove active node for display
+		m_ActiveNode = nullptr;
 	}
 }
 
 void EditorLayer::RenderSidewindow() {
 	ImGui::Begin("Properties");
 
-	if (m_GenerationErr) {
-		m_ActiveNode = nullptr;
-	}
-
 	if (ImGui::Button("Help")) {
 		m_ActiveNode = nullptr;
 		m_GenerationErr = false;
 	}
 
-	if (m_ActiveNode) { m_ActiveNode->RenderProperties(); }
-	else if (m_GenerationErr) {
+	if (m_GenerationErr && m_ActiveNode == nullptr) {
 		ImGui::TextWrapped("Generation Error!");
 		ImGui::TextWrapped(m_GenerationErrStr.c_str());
+		ImGui::End();
+		return;
 	}
+
+	if (m_ActiveNode) { m_ActiveNode->RenderProperties(); }
 	else {
 		ImGui::Bullet(); ImGui::TextWrapped("Left click-and-drag on a node to move it.");
 		ImGui::Bullet(); ImGui::TextWrapped("Left click on a node to display it's properties in this panel.");
