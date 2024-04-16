@@ -23,13 +23,11 @@ We utilise premake to generate solution files, whose use is conveniently abstrac
 For full usage instructions please see the [Usage Guide](USAGE.md)
 
 ## Roadmap
-
-- [ ] Saving/Loading
-  - [ ] Serialisation/Deserialisation library chosen/written
+- [ ] Convert to a serialisation focused model
+  - [ ] User can save to a file
+  - [ ] User can load from a file
   - [ ] Drag and drop save files onto application to load
-- [ ] TAG (Game) Generation
-  - [ ] Output format chosen
-  - [ ] Format generation
+  - [ ] TAG Generation is done directly from the file
 - [ ] Be able to flip nodes to have inputs on the right and outputs on the left
   - [ ] A colour based demarkation of what side is input and output
 - [ ] Zoom in and out in the editor

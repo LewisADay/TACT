@@ -44,4 +44,4 @@ Saving and loading are currently not supported.
 
 ## Generating your Game
 
-The final format for the output games hasn't been decided or implemented, for now TACT is less of a creation tool and more of a design or planning tool.
+When you've completed your game you can go to the `File->Generate Game` option in the menu bar, this will trigger the generation. If any errors occur they should be displayed in the properties panel, which will be cleared should you press the help button or select a node on the canvas. In the event generation is successful you should find a TAG.bat in the repo base directory. Running this in a Windows environment will play your game! N.B. Triggering another generation from TACT will override this file should it exist, so if you wish to save your game then please make a copy of TAG.bat.
