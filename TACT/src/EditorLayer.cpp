@@ -123,6 +123,12 @@ void EditorLayer::LinkOperations() {
 
 	// Check for deleted links
 	{
+		// Brute force it since the recommended solution below doesn't seem to trigger
+		for (int k = 0; k < m_Links.size(); ++k) {
+			if (ImNodes::IsLinkSelected(k) && ImGui::IsKeyDown(ImGuiKey_Delete)) {
+				m_Links.erase(std::next(m_Links.begin(), k));
+			}
+		}
 		// Due to how we submit links, the id is NECCESSARILLY it's index in the links vector
 		int id;
 		if (ImNodes::IsLinkDestroyed(&id)) {
