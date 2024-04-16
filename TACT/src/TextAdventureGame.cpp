@@ -173,7 +173,7 @@ bool TextAdventureGame::ProcessNode(const std::shared_ptr<Node>& node, std::stri
 			<< "echo The End!\n"
 			<< "pause\n"
 			<< "goto start\n";
-		return;
+		return true;
 	}
 
 	// Start user choice section
@@ -232,4 +232,6 @@ bool TextAdventureGame::ProcessNode(const std::shared_ptr<Node>& node, std::stri
 		<< "echo Invalid choice, please choose again\n"
 		<< "pause\n"
 		<< "goto NODE" << node->GetID() << "\n\n\n";
+
+	return true;
 }
