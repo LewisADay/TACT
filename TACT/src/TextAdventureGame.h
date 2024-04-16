@@ -32,8 +32,12 @@ public: // Public methods
 	bool Generate(std::string& errStr);
 
 private: // Private methods
+
+	// Relics of an older idea - left for future use when we abandon batch
 	std::vector<std::shared_ptr<Node>> GetDownstreamNodes(const std::shared_ptr<Node>& usNode);
 	bool HasInputPin(const std::shared_ptr<Node>& node, const int& id);
+
+	// TODO abandon batch
 	void ProcessNode(const std::shared_ptr<Node>& node);
 
 	//void AddUserChoiceSection
