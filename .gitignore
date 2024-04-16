@@ -11,6 +11,9 @@ Walnut/bin-int/
 *.vcxproj.filters
 *.vcxproj.user
 
+# The generated Text Adventure Game
+TAG.bat
+
 ## C++ Standard GitIgnore source: https://github.com/github/gitignore/blob/main/C%2B%2B.gitignore
 # Prerequisites
 *.d

@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory>
+#include <sstream>
 
 #include "Nodes/Node.h"
 #include "Nodes/SourceNode.h"
@@ -31,10 +32,16 @@ public: // Public methods
 	bool Generate(std::string& errStr);
 
 private: // Private methods
-	std::vector<std::shared_ptr<Node>> GetDownstreamNodes(const int& id);
+	std::vector<std::shared_ptr<Node>> GetDownstreamNodes(const std::shared_ptr<Node>& usNode);
+	bool HasInputPin(const std::shared_ptr<Node>& node, const int& id);
+	void ProcessNode(const std::shared_ptr<Node>& node);
 
+	//void AddUserChoiceSection
 private: // Private members
 	const std::shared_ptr<SourceNode>& m_SourceNode;
 	const std::vector<std::shared_ptr<Node>>& m_Nodes;
 	const std::vector<std::pair<int, int>>& m_Links;
+	const std::string m_OutputFilePath = "TAG.bat"; // TODO: Use something other than batch as an output
+	std::ostringstream m_OutputStream;
+
 };
