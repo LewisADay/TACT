@@ -47,21 +47,29 @@ void EditorLayer::GenerateGame() {
 	TextAdventureGame game(m_SourceNode, m_Nodes, m_Links);
 	std::string errStr;
 	if (!game.Generate(errStr)) {
-		// TODO
-		// Log error string - probably add logging in general too
-		std::cerr << "Error building game!\n" + errStr << std::endl;
 		// Report to the user
+		m_GenerationErr = true;
+		m_GenerationErrStr = errStr;
 	}
 }
 
 void EditorLayer::RenderSidewindow() {
 	ImGui::Begin("Properties");
 
-	if (ImGui::Button("Help")) {
+	if (m_GenerationErr) {
 		m_ActiveNode = nullptr;
 	}
 
+	if (ImGui::Button("Help")) {
+		m_ActiveNode = nullptr;
+		m_GenerationErr = false;
+	}
+
 	if (m_ActiveNode) { m_ActiveNode->RenderProperties(); }
+	else if (m_GenerationErr) {
+		ImGui::TextWrapped("Generation Error!");
+		ImGui::TextWrapped(m_GenerationErrStr.c_str());
+	}
 	else {
 		ImGui::Bullet(); ImGui::TextWrapped("Left click-and-drag on a node to move it.");
 		ImGui::Bullet(); ImGui::TextWrapped("Left click on a node to display it's properties in this panel.");

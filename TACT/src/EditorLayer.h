@@ -63,5 +63,7 @@ private:
 	std::shared_ptr<Node> m_ActiveNode;
 	std::vector<std::pair<int, int>> m_Links;
 	std::shared_ptr<SourceNode> m_SourceNode;
+	bool m_GenerationErr;
+	std::string m_GenerationErrStr;
 	int _NodeID = 0; // Not m_ as should only be used if you know what you're doing, use GetNextNodeID().
 };
