@@ -33,19 +33,25 @@ void TextNode::RenderProperties() {
 	// ==== Input Pins ====
 	ImGui::Text("Input Pins");
 
+	// TODO: When input variables done, uncomment
+	/* For now we only permit one input pin
 	// Add button
 	if (ImGui::Button("+##InputPins")) {
 		AddInputPin();
 	}
+	*/
 
 	// Display pin options
 	for (std::shared_ptr<InputPin>& pin : m_InputPins) {
+		// TODO: When input variables done, uncomment
+		/* For now we only permit one input pin so don't delete it
 		// Delete button
 		ImGui::PushID(pin->GetID());
 		if (ImGui::Button("-")) {
 			RemoveInputPin(pin->GetID());
 		}
 		ImGui::PopID();
+		*/
 
 		// Display pin
 		ImGui::SameLine();
