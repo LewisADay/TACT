@@ -55,6 +55,7 @@ void OutputPin::RenderProperties() {
 		int selection = m_PinType;
 		// TODO: Implement invalid input flow control (TAG Generation update needed to support)
 		// For now we disallow flow control from the invalid input
+		// For now invalid input simply reloads the same node
 		//ImGui::Combo("##PinType", &selection, "User Input\0Invalid Input");
 		ImGui::Combo("##PinType", &selection, "User Input");
 		m_PinType = static_cast<PinType>(selection);
