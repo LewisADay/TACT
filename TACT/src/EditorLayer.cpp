@@ -129,13 +129,16 @@ void EditorLayer::LinkOperations() {
 		for (int k = 0; k < m_Links.size(); ++k) {
 			if (ImNodes::IsLinkSelected(k) && ImGui::IsKeyDown(ImGuiKey_Delete)) {
 				m_Links.erase(std::next(m_Links.begin(), k));
+				ImNodes::ClearLinkSelection();
 			}
 		}
 		// Due to how we submit links, the id is NECCESSARILLY it's index in the links vector
+		/*
 		int id;
 		if (ImNodes::IsLinkDestroyed(&id)) {
 			m_Links.erase(std::next(m_Links.begin(), id));
 		}
+		*/
 	}
 }
 
