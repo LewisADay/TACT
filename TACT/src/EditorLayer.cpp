@@ -104,6 +104,8 @@ void EditorLayer::RenderMainwindow() {
 		ImNodes::Link(i, link.first, link.second);
 	}
 
+	// Render the minimap
+	ImNodes::MiniMap();
 	ImNodes::EndNodeEditor();
 	ImGui::End();
 }
