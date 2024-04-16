@@ -53,7 +53,11 @@ void OutputPin::RenderProperties() {
 
 	{// Select the type of the pin
 		int selection = m_PinType;
-		ImGui::Combo("##PinType", &selection, "User Input\0Invalid Input");
+		// TODO: Implement invalid input flow control (TAG Generation update needed to support)
+		// For now we disallow flow control from the invalid input
+		// For now invalid input simply reloads the same node
+		//ImGui::Combo("##PinType", &selection, "User Input\0Invalid Input");
+		ImGui::Combo("##PinType", &selection, "User Input");
 		m_PinType = static_cast<PinType>(selection);
 	}
 
@@ -66,3 +70,7 @@ void OutputPin::RenderProperties() {
 
 	ImGui::PopID();
 }
+
+const OutputPin::PinType& OutputPin::GetPinType() const { return m_PinType; }
+
+const std::string& OutputPin::GetMatchString() const { return m_MatchString; }

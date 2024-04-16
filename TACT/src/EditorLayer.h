@@ -51,7 +51,7 @@ private:
 	void RenderSidewindow();
 	void RenderMainwindow();
 	void LinkOperations();
-	void SelectedNodeManagement();
+	void NodeOperations();
 	void RightClickMenu();
 	int GetNextNodeID();
 	void NewNode(const NodeType& type);
@@ -63,5 +63,7 @@ private:
 	std::shared_ptr<Node> m_ActiveNode;
 	std::vector<std::pair<int, int>> m_Links;
 	std::shared_ptr<SourceNode> m_SourceNode;
-	int _NodeID; // Not m_ as should only be used if you know what you're doing, use GetNextNodeID().
+	bool m_GenerationErr;
+	std::string m_GenerationErrStr;
+	int _NodeID = 0; // Not m_ as should only be used if you know what you're doing, use GetNextNodeID().
 };

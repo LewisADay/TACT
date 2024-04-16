@@ -5,7 +5,7 @@
 #include "SourceNode.h"
 
 SourceNode::SourceNode() : Node(0) {
-	m_OutputPins.emplace_back(GetNextPinID(), OutputPin::PinType::Flow);
+	m_OutputPins.push_back(std::make_shared<OutputPin>(GetNextPinID(), OutputPin::PinType::Flow));
 }
 
 void SourceNode::Render() {
@@ -16,8 +16,8 @@ void SourceNode::Render() {
 
 	// Output attributes (should be only 1 for source)
 	ImGui::BeginGroup();
-	for each (OutputPin outPin in m_OutputPins) {
-		outPin.Render();
+	for (std::shared_ptr<OutputPin>& outPin : m_OutputPins) {
+		outPin->Render();
 	}
 	ImGui::EndGroup();
 

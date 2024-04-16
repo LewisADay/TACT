@@ -17,7 +17,7 @@ void EditorLayer::OnAttach() {
 	ImNodes::CreateContext();
 
 	// Create the source node
-	std::shared_ptr<SourceNode> m_SourceNode = std::make_shared<SourceNode>();
+	m_SourceNode = std::make_shared<SourceNode>();
 	m_Nodes.push_back(m_SourceNode);
 }
 
@@ -29,7 +29,7 @@ void EditorLayer::OnUIRender() {
 	RenderSidewindow();
 	RenderMainwindow();
 	LinkOperations();
-	SelectedNodeManagement();
+	NodeOperations();
 }
 
 // TODO
@@ -47,18 +47,39 @@ void EditorLayer::GenerateGame() {
 	TextAdventureGame game(m_SourceNode, m_Nodes, m_Links);
 	std::string errStr;
 	if (!game.Generate(errStr)) {
-		// TODO
-		// Log error string - probably add logging in general too
-		std::cerr << "Error building game!\n" + errStr << std::endl;
 		// Report to the user
+		m_GenerationErr = true;
+		m_GenerationErrStr = errStr;
+		// Remove active node for display
+		m_ActiveNode = nullptr;
 	}
 }
 
 void EditorLayer::RenderSidewindow() {
 	ImGui::Begin("Properties");
 
+	if (ImGui::Button("Help")) {
+		m_ActiveNode = nullptr;
+		m_GenerationErr = false;
+	}
+
+	if (m_GenerationErr && m_ActiveNode == nullptr) {
+		ImGui::TextWrapped("Generation Error!");
+		ImGui::TextWrapped(m_GenerationErrStr.c_str());
+		ImGui::End();
+		return;
+	}
+
 	if (m_ActiveNode) { m_ActiveNode->RenderProperties(); }
-	else { ImGui::Text("Select a node to customize it."); }
+	else {
+		ImGui::Bullet(); ImGui::TextWrapped("Left click-and-drag on a node to move it.");
+		ImGui::Bullet(); ImGui::TextWrapped("Left click on a node to display it's properties in this panel.");
+		ImGui::Bullet(); ImGui::TextWrapped("Middle mouse click-and-drag on the canvas to move the viewport.");
+		ImGui::Bullet(); ImGui::TextWrapped("Right click on the canvas to open the add new node menu.");
+		ImGui::Bullet(); ImGui::TextWrapped("Delete a node or link by selecting it and pressing DELETE.");
+		ImGui::Bullet(); ImGui::TextWrapped("Attach the source node to a text node to get started.");
+		ImGui::Bullet(); ImGui::TextWrapped("Each text node that ends the program should be marked as terminating in it's properties.");
+	}
 	
 	ImGui::End();
 }
@@ -88,30 +109,60 @@ void EditorLayer::RenderMainwindow() {
 }
 
 void EditorLayer::LinkOperations() {
+
 	// Check for new links
 	{
 		int start_attr, end_attr;
 		if (ImNodes::IsLinkCreated(&start_attr, &end_attr)) {
+			// Check to see if this pin already has a link
+			for (std::pair<int, int>& link : m_Links) {
+				if (link.first == start_attr) { return; }
+			}
+			// If not, add the link
 			m_Links.push_back(std::make_pair(start_attr, end_attr));
 		}
 	}
 
 	// Check for deleted links
 	{
+		// Brute force it since the recommended solution below doesn't seem to trigger
+		for (int k = 0; k < m_Links.size(); ++k) {
+			if (ImNodes::IsLinkSelected(k) && ImGui::IsKeyDown(ImGuiKey_Delete)) {
+				m_Links.erase(std::next(m_Links.begin(), k));
+				ImNodes::ClearLinkSelection();
+			}
+		}
 		// Due to how we submit links, the id is NECCESSARILLY it's index in the links vector
+		/*
 		int id;
 		if (ImNodes::IsLinkDestroyed(&id)) {
 			m_Links.erase(std::next(m_Links.begin(), id));
 		}
+		*/
 	}
 }
 
-void EditorLayer::SelectedNodeManagement() {
-	int nodeID;
-	if (ImNodes::IsNodeHovered(&nodeID) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+void EditorLayer::NodeOperations() {
+
+	{ // Node selection for properties
+		int nodeID;
+		if (ImNodes::IsNodeHovered(&nodeID) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+			for (int k = 0; k < m_Nodes.size(); ++k) {
+				if (m_Nodes[k]->GetID() == nodeID) {
+					m_ActiveNode = m_Nodes[k]; // Shared ptr ref++
+				}
+			}
+		}
+	}
+
+	{ // Node deletion
 		for (int k = 0; k < m_Nodes.size(); ++k) {
-			if (m_Nodes[k]->GetID() == nodeID) {
-				m_ActiveNode = m_Nodes[k]; // Shared ptr ref++
+			if (ImNodes::IsNodeSelected(k)
+				&& ImGui::IsKeyDown(ImGuiKey_Delete)
+				&& k != m_SourceNode->GetID())
+			{
+				m_Nodes.erase(std::next(m_Nodes.begin(), k));
+				m_ActiveNode = nullptr;
 			}
 		}
 	}

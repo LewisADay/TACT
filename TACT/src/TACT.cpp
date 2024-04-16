@@ -30,6 +30,12 @@ Walnut::Application* Walnut::CreateApplication(int argc, char** argv) {
 			}
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("About")) {
+			ImGui::Text("Author: Lewis Day");
+			ImGui::Text("Version: 0.1");
+			ImGui::Text("GitHub: https://www.github.com/LewisADay/TACT");
+			ImGui::EndMenu();
+		}
 	});
 	return app;
 }

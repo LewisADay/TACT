@@ -45,6 +45,18 @@ public: // Public methods
 	/// </summary>
 	virtual void RenderProperties() override;
 
+	/// <summary>
+	/// Retrieve the pin's type
+	/// </summary>
+	/// <returns>The type</returns>
+	const PinType& GetPinType() const;
+
+	/// <summary>
+	/// Retrieve the match string for the node
+	/// </summary>
+	/// <returns>The match string</returns>
+	const std::string& GetMatchString() const;
+
 private: // Private members
 	PinType m_PinType;
 	std::string m_MatchString;
