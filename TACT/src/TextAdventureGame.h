@@ -55,6 +55,6 @@ private: // Private members
 	const std::shared_ptr<SourceNode>& m_SourceNode;
 	const std::vector<std::shared_ptr<Node>>& m_Nodes;
 	const std::vector<std::pair<int, int>>& m_Links;
-	const std::string m_OutputFilePath = "TAG.bat"; // TODO: Use something other than batch as an output
+	const std::string m_OutputFilePath = "../TAG.bat"; // TODO: Use something other than batch as an output
 	std::ostringstream m_OutputStream;
 };
