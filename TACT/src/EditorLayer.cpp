@@ -76,6 +76,8 @@ void EditorLayer::RenderSidewindow() {
 		ImGui::Bullet(); ImGui::TextWrapped("Left click on a node to display it's properties in this panel.");
 		ImGui::Bullet(); ImGui::TextWrapped("Middle mouse click-and-drag on the canvas to move the viewport.");
 		ImGui::Bullet(); ImGui::TextWrapped("Right click on the canvas to open the add new node menu.");
+		ImGui::Bullet(); ImGui::TextWrapped("Attach the source node to a text node to get started.");
+		ImGui::Bullet(); ImGui::TextWrapped("Each text node that ends the program should be marked as terminating in it's properties.");
 	}
 	
 	ImGui::End();
