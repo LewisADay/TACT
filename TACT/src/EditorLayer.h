@@ -65,5 +65,6 @@ private:
 	std::shared_ptr<SourceNode> m_SourceNode;
 	bool m_GenerationErr;
 	std::string m_GenerationErrStr;
+	bool m_InitialRenderPass;
 	int _NodeID = 0; // Not m_ as should only be used if you know what you're doing, use GetNextNodeID().
 };
