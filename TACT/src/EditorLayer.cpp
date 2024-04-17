@@ -19,6 +19,9 @@ void EditorLayer::OnAttach() {
 	// Create the source node
 	m_SourceNode = std::make_shared<SourceNode>();
 	m_Nodes.push_back(m_SourceNode);
+
+	// Set initial render pass flag
+	m_InitialRenderPass = true;
 }
 
 void EditorLayer::OnDetach() {
@@ -80,13 +83,20 @@ void EditorLayer::RenderSidewindow() {
 		ImGui::Bullet(); ImGui::TextWrapped("Attach the source node to a text node to get started.");
 		ImGui::Bullet(); ImGui::TextWrapped("Each text node that ends the program should be marked as terminating in it's properties.");
 	}
-	
+
 	ImGui::End();
 }
 
 void EditorLayer::RenderMainwindow() {
 	ImGui::Begin("Editor");
 	ImNodes::BeginNodeEditor();
+
+	// Initial source node placement
+	if (m_InitialRenderPass) {
+		ImVec2 size = ImGui::GetWindowSize();
+		ImNodes::EditorContextResetPanning(ImVec2(5, size.y / 2));
+		m_InitialRenderPass = false;
+	}
 
 	RightClickMenu();
 
@@ -102,6 +112,11 @@ void EditorLayer::RenderMainwindow() {
 	for (int i = 0; i < m_Links.size(); ++i) {
 		const std::pair<int, int> link = m_Links[i];
 		ImNodes::Link(i, link.first, link.second);
+	}
+
+	// Render the minimap must be done just before EndNodeEditor
+	if (m_Nodes.size() > 1) {
+		ImNodes::MiniMap();
 	}
 
 	ImNodes::EndNodeEditor();
