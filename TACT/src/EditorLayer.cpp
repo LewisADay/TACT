@@ -11,6 +11,7 @@
 #include "Nodes/TextNode.h"
 #include "Nodes/SourceNode.h"
 #include "TextAdventureGame.h"
+#include "Serialiser.h"
 
 
 void EditorLayer::OnAttach() {
@@ -37,24 +38,31 @@ void EditorLayer::OnUIRender() {
 
 // TODO
 void EditorLayer::Save() {
-	// Serialise the m_Nodes and m_Links vectors
-	// Will probably need to use reflection to get the node types
-	// so they can be serialised
-	// Record the m_Nodes ID's and those ID's positions
+	std::string path = "test.json";
+	std::string errStr;
+	if (Serialiser::SerialiseEditorState(path, m_Nodes, m_Links, errStr)) {
+		ReportError(errStr);
+	}
 }
 
 // TODO
-void EditorLayer::Load() {}
+void EditorLayer::Load() {
+	m_Nodes.clear();
+	m_Links.clear();
+
+	std::string path = "test.json";
+	std::string errStr;
+	if (Serialiser::DeserialiseEditorState(path, m_Nodes, m_Links, errStr)) {
+		ReportError(errStr);
+	}
+}
 
 void EditorLayer::GenerateGame() {
 	TextAdventureGame game(m_SourceNode, m_Nodes, m_Links);
 	std::string errStr;
 	if (!game.Generate(errStr)) {
 		// Report to the user
-		m_GenerationErr = true;
-		m_GenerationErrStr = errStr;
-		// Remove active node for display
-		m_ActiveNode = nullptr;
+		ReportError(errStr);
 	}
 }
 
@@ -63,12 +71,12 @@ void EditorLayer::RenderSidewindow() {
 
 	if (ImGui::Button("Help")) {
 		m_ActiveNode = nullptr;
-		m_GenerationErr = false;
+		m_ErrFlag = false;
 	}
 
-	if (m_GenerationErr && m_ActiveNode == nullptr) {
+	if (m_ErrFlag && m_ActiveNode == nullptr) {
 		ImGui::TextWrapped("Generation Error!");
-		ImGui::TextWrapped(m_GenerationErrStr.c_str());
+		ImGui::TextWrapped(m_ErrStr.c_str());
 		ImGui::End();
 		return;
 	}
@@ -246,4 +254,12 @@ void EditorLayer::NewTextNode() {
 	ImNodes::SetNodeScreenSpacePos(id, ImGui::GetMousePos());
 
 	m_Nodes.push_back(textNode);
+}
+
+void EditorLayer::ReportError(const std::string& errStr) {
+	// Tell properties panel to display the error string
+	m_ActiveNode = nullptr;
+	m_ErrFlag = true;
+	// Set error string to displayh
+	m_ErrStr = errStr;
 }
