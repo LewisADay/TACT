@@ -36,7 +36,6 @@ void EditorLayer::OnUIRender() {
 	NodeOperations();
 }
 
-// TODO
 void EditorLayer::Save() {
 	std::string path = "test.json";
 	std::string errStr;
@@ -45,7 +44,6 @@ void EditorLayer::Save() {
 	}
 }
 
-// TODO
 void EditorLayer::Load() {
 	m_Nodes.clear();
 	m_Links.clear();
@@ -61,7 +59,6 @@ void EditorLayer::GenerateGame() {
 	TextAdventureGame game(m_SourceNode, m_Nodes, m_Links);
 	std::string errStr;
 	if (!game.Generate(errStr)) {
-		// Report to the user
 		ReportError(errStr);
 	}
 }
