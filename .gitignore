@@ -14,6 +14,9 @@ Walnut/bin-int/
 # The generated Text Adventure Game
 TAG.bat
 
+# Saved editor states are saved as jsons
+*.json
+
 ## C++ Standard GitIgnore source: https://github.com/github/gitignore/blob/main/C%2B%2B.gitignore
 # Prerequisites
 *.d
