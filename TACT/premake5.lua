@@ -16,16 +16,24 @@ project "TACT"
 
    includedirs
    {
+      -- Vendors
       "../Walnut/vendor/imgui",
       "../Walnut/vendor/glfw/include",
 
+      -- Walnut
       "../Walnut/Walnut/src",
 
+      -- Nodes
       "../imnodes",
 
+      -- Json serialiser
+      "../json/single_include",
+
+      -- ImGUI backends
       "%{IncludeDir.VulkanSDK}",
       "%{IncludeDir.glm}",
 
+      -- Local source includes
       "src",
    }
 
