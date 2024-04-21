@@ -69,6 +69,22 @@ int Node::AddInputPin() {
 	return id;
 }
 
+bool Node::AddInputPin(int id) {
+
+	// Is that ID taken checks
+	auto it = std::find(m_InputPins.begin(), m_InputPins.end(), [id](const std::shared_ptr<InputPin>& inPin) {
+		return inPin->GetID() == id;
+		});
+	if (it != m_InputPins.end()) {
+		// That ID is taken
+		return false;
+	}
+	
+	// Add the pin
+	m_InputPins.push_back(std::make_shared<InputPin>(id));
+	return true;
+}
+
 void Node::RemoveInputPin(const int& id) { RemovePin(id, m_InputPins); }
 
 int Node::AddOutputPin() {
@@ -88,6 +104,7 @@ bool Node::IsTerminating() { return m_TerminatingNode; }
 
 int Node::GetNextPinID() { return ++_PinID; }
 
+// TODO Use remove_if
 template<typename TPinType, typename TEnable>
 void Node::RemovePin(int id, std::vector<TPinType>& pinVec) {
 	// Iterate through the pins vector, when we find one which matches the ID

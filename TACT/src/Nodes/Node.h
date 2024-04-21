@@ -49,6 +49,13 @@ public: // Public methods
 	int AddInputPin();
 
 	/// <summary>
+	/// Add an input pin with the given id
+	/// </summary>
+	/// <param name="id">ID of the new pin</param>
+	/// <returns>If the pin was able to be created with the given id</returns>
+	bool AddInputPin(int id);
+
+	/// <summary>
 	/// Remove an input pin by ID
 	/// </summary>
 	/// <param name="id">The ID of the input pin to remove</param>
