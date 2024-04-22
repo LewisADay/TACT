@@ -108,6 +108,8 @@ const std::string& Node::GetPrintableContent() {
 
 bool Node::IsTerminating() { return m_TerminatingNode; }
 
+void Node::SetTerminating(bool value) { m_TerminatingNode = value; }
+
 int Node::GetNextPinID() { return ++_PinID; }
 
 // TODO Use remove_if

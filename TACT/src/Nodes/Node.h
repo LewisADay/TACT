@@ -102,6 +102,12 @@ public: // Public methods
 	/// <returns>If this node terminates the TAG</returns>
 	virtual bool IsTerminating();
 
+	/// <summary>
+	/// Set if this node is terminating or not
+	/// </summary>
+	/// <param name="val">Value to set terminating flag to</param>
+	void SetTerminating(bool val);
+
 public: // Public members
 
 	/// <summary>
