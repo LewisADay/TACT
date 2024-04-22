@@ -93,6 +93,12 @@ int Node::AddOutputPin() {
 	return id;
 }
 
+int Node::AddOutputTextPin(const std::string& content) {
+	int id = GetNextPinID();
+	m_OutputPins.push_back(std::make_shared<OutputPin>(id, OutputPin::PinType::UserInput, content));
+	return id;
+}
+
 void Node::RemoveOutputPin(const int& id) { RemovePin(id, m_OutputPins); }
 
 const std::string& Node::GetPrintableContent() {

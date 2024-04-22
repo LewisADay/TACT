@@ -68,6 +68,13 @@ public: // Public methods
 	int AddOutputPin();
 
 	/// <summary>
+	/// Add an output text pin
+	/// </summary>
+	/// <param name="content">Pin content</param>
+	/// <returns>The pin ID of the newly created output pin</returns>
+	int AddOutputTextPin(const std::string& content);
+
+	/// <summary>
 	/// Remove an output pin by ID
 	/// </summary>
 	/// <param name="id">The ID of the output pin to remove</param>
