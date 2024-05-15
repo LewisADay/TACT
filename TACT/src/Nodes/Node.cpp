@@ -71,10 +71,10 @@ int Node::AddInputPin() {
 
 bool Node::AddInputPin(int id) {
 
-	// Is that ID taken checks
-	auto it = std::find(m_InputPins.begin(), m_InputPins.end(), [id](const std::shared_ptr<InputPin>& inPin) {
+	// Is that ID taken
+	auto it = std::find_if(m_InputPins.begin(), m_InputPins.end(), [id](const std::shared_ptr<InputPin>& inPin) {
 		return inPin->GetID() == id;
-		});
+	});
 	if (it != m_InputPins.end()) {
 		// That ID is taken
 		return false;
