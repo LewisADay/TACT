@@ -39,7 +39,7 @@ void EditorLayer::OnUIRender() {
 void EditorLayer::Save() {
 	std::string path = "test.json";
 	std::string errStr;
-	if (Serialiser::SerialiseEditorState(path, m_Nodes, m_Links, errStr)) {
+	if (!Serialiser::SerialiseEditorState(path, m_Nodes, m_Links, errStr)) {
 		ReportError(errStr);
 	}
 }
@@ -50,7 +50,7 @@ void EditorLayer::Load() {
 
 	std::string path = "test.json";
 	std::string errStr;
-	if (Serialiser::DeserialiseEditorState(path, m_Nodes, m_Links, errStr)) {
+	if (!Serialiser::DeserialiseEditorState(path, m_Nodes, m_Links, errStr)) {
 		ReportError(errStr);
 	}
 }
