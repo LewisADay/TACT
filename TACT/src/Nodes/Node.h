@@ -20,6 +20,11 @@ public: // Public methods
 	Node(int id);
 
 	/// <summary>
+	/// Virtual Destructor
+	/// </summary>
+	virtual ~Node() = default;
+
+	/// <summary>
 	/// Render the node (as part of the primary ImGui loop)
 	/// </summary>
 	virtual void Render();
