@@ -70,11 +70,12 @@ void TextNode::RenderProperties() {
 		}
 
 		// Display pin options
+		std::vector<int> pinsToRemove; // Almost never more than 1, but you never know
 		for (std::shared_ptr<OutputPin>& pin : m_OutputPins) {
 			// Delete button
 			ImGui::PushID(pin->GetID());
 			if (ImGui::Button("-")) {
-				RemoveOutputPin(pin->GetID());
+				pinsToRemove.push_back(pin->GetID());
 			}
 			ImGui::PopID();
 
@@ -83,6 +84,12 @@ void TextNode::RenderProperties() {
 			ImGui::BeginGroup();
 			pin->RenderProperties();
 			ImGui::EndGroup();
+		}
+
+		// We perform pin removal after display to avoid changing the elements of
+		// the vector during interation
+		for (int id : pinsToRemove) {
+			RemoveOutputPin(id);
 		}
 	}
 }

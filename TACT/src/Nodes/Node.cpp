@@ -89,11 +89,11 @@ bool Node::IsTerminating() { return m_TerminatingNode; }
 int Node::GetNextPinID() { return ++_PinID; }
 
 template<typename TPinType, typename TEnable>
-void Node::RemovePin(int id, std::vector<TPinType>& pinVec) {
+void Node::RemovePin(int id, std::vector<std::shared_ptr<TPinType>>& pinVec) {
 	// Iterate through the pins vector, when we find one which matches the ID
 	// we erase it and return
 	for (int k = 0; k < pinVec.size(); ++k) {
-		if (reinterpret_cast<Pin*>(&pinVec[k])->GetID() == id) {
+		if (reinterpret_cast<Pin*>(pinVec[k].get())->GetID() == id) {
 			pinVec.erase(std::next(pinVec.begin(), k));
 			return;
 		}

@@ -127,7 +127,7 @@ private: // Private methods
 	
 	// Enabled only if the vector is a vector of objects of a class derived from Pin
 	template<typename TPinType, typename TEnable = std::enable_if<std::is_base_of_v<Pin, TPinType>>>
-	void RemovePin(int id, std::vector<TPinType>& pinVec);
+	void RemovePin(int id, std::vector< std::shared_ptr<TPinType>>& pinVec);
 
 private: // Private static members
 
