@@ -39,13 +39,13 @@ public: // Public methods
 	/// Retrieve a const ref to the input pins vector
 	/// </summary>
 	/// <returns>A vector of the input pins of this node</returns>
-	const std::vector<std::shared_ptr<InputPin>>& GetInputPins() const;
+	const std::vector<InputPin>& GetInputPins() const;
 
 	/// <summary>
 	/// Retrieve a const ref to the output pins vector
 	/// </summary>
 	/// <returns>A vector of the output pins of this node</returns>
-	const std::vector<std::shared_ptr<OutputPin>>& GetOutputPins() const;
+	const std::vector<OutputPin>& GetOutputPins() const;
 
 	/// <summary>
 	/// Add an input pin
@@ -117,8 +117,8 @@ protected: // Protected members
 
 	bool m_TerminatingNode;
 	std::string m_ContentStr;
-	std::vector<std::shared_ptr<InputPin>> m_InputPins;
-	std::vector<std::shared_ptr<OutputPin>> m_OutputPins;
+	std::vector<InputPin> m_InputPins;
+	std::vector<OutputPin> m_OutputPins;
 	
 private: // Private methods
 
@@ -127,7 +127,7 @@ private: // Private methods
 	
 	// Enabled only if the vector is a vector of objects of a class derived from Pin
 	template<typename TPinType, typename TEnable = std::enable_if<std::is_base_of_v<Pin, TPinType>>>
-	void RemovePin(int id, std::vector< std::shared_ptr<TPinType>>& pinVec);
+	void RemovePin(int id, std::vector<TPinType>& pinVec);
 
 private: // Private static members
 

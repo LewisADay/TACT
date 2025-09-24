@@ -42,7 +42,7 @@ void TextNode::RenderProperties() {
 	*/
 
 	// Display pin options
-	for (std::shared_ptr<InputPin>& pin : m_InputPins) {
+	for (InputPin& pin : m_InputPins) {
 		// TODO: When input variables done, uncomment
 		/* For now we only permit one input pin so don't delete it
 		// Delete button
@@ -56,7 +56,7 @@ void TextNode::RenderProperties() {
 		// Display pin
 		ImGui::SameLine();
 		ImGui::BeginGroup();
-		pin->RenderProperties();
+		pin.RenderProperties();
 		ImGui::EndGroup();
 	}
 
@@ -71,18 +71,18 @@ void TextNode::RenderProperties() {
 
 		// Display pin options
 		std::vector<int> pinsToRemove; // Almost never more than 1, but you never know
-		for (std::shared_ptr<OutputPin>& pin : m_OutputPins) {
+		for (OutputPin& pin : m_OutputPins) {
 			// Delete button
-			ImGui::PushID(pin->GetID());
+			ImGui::PushID(pin.GetID());
 			if (ImGui::Button("-")) {
-				pinsToRemove.push_back(pin->GetID());
+				pinsToRemove.push_back(pin.GetID());
 			}
 			ImGui::PopID();
 
 			// Display pin
 			ImGui::SameLine();
 			ImGui::BeginGroup();
-			pin->RenderProperties();
+			pin.RenderProperties();
 			ImGui::EndGroup();
 		}
 

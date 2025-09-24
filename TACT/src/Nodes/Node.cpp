@@ -26,8 +26,8 @@ void Node::Render() {
 
 	// Input attributes
 	ImGui::BeginGroup();
-	for (std::shared_ptr<InputPin>& inPin : m_InputPins) {
-		inPin->Render();
+	for (InputPin& inPin : m_InputPins) {
+		inPin.Render();
 	}
 	ImGui::EndGroup();
 
@@ -48,8 +48,8 @@ void Node::Render() {
 		ImGui::SameLine();
 
 		ImGui::BeginGroup();
-		for (std::shared_ptr<OutputPin>& outPin : m_OutputPins) {
-			outPin->Render();
+		for (OutputPin& outPin : m_OutputPins) {
+			outPin.Render();
 		}
 		ImGui::EndGroup();
 	}
@@ -59,13 +59,13 @@ void Node::Render() {
 
 int Node::GetID() const { return m_ID; }
 
-const std::vector<std::shared_ptr<InputPin>>& Node::GetInputPins() const { return m_InputPins; }
+const std::vector<InputPin>& Node::GetInputPins() const { return m_InputPins; }
 
-const std::vector<std::shared_ptr<OutputPin>>& Node::GetOutputPins() const { return m_OutputPins; }
+const std::vector<OutputPin>& Node::GetOutputPins() const { return m_OutputPins; }
 
 int Node::AddInputPin() {
 	int id = GetNextPinID();
-	m_InputPins.push_back(std::make_shared<InputPin>(id));
+	m_InputPins.emplace_back(id);
 	return id;
 }
 
@@ -73,7 +73,7 @@ void Node::RemoveInputPin(const int& id) { RemovePin(id, m_InputPins); }
 
 int Node::AddOutputPin() {
 	int id = GetNextPinID();
-	m_OutputPins.push_back(std::make_shared<OutputPin>(id));
+	m_OutputPins.emplace_back(id);
 	return id;
 }
 
@@ -89,11 +89,11 @@ bool Node::IsTerminating() { return m_TerminatingNode; }
 int Node::GetNextPinID() { return ++_PinID; }
 
 template<typename TPinType, typename TEnable>
-void Node::RemovePin(int id, std::vector<std::shared_ptr<TPinType>>& pinVec) {
+void Node::RemovePin(int id, std::vector<TPinType>& pinVec) {
 	// Iterate through the pins vector, when we find one which matches the ID
 	// we erase it and return
 	for (int k = 0; k < pinVec.size(); ++k) {
-		if (reinterpret_cast<Pin*>(pinVec[k].get())->GetID() == id) {
+		if (reinterpret_cast<Pin*>(&pinVec[k])->GetID() == id) {
 			pinVec.erase(std::next(pinVec.begin(), k));
 			return;
 		}
