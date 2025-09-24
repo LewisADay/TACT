@@ -10,6 +10,11 @@ public: // Public methods
 	Pin(int id);
 
 	/// <summary>
+	/// Virtual Destructor
+	/// </summary>
+	virtual ~Pin() = default;
+
+	/// <summary>
 	/// Render the pin (to be called by the owning node)
 	/// </summary>
 	virtual void Render() = 0;

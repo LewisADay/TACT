@@ -36,7 +36,7 @@ bool TextAdventureGame::Generate(std::string& errStr) {
 	m_OutputStream << "@echo off\n" << "title Text Adventure Game\n\n" << ":start\n";
 
 	// Get source node and start tracing the paths
-	int sourcePinID = m_SourceNode->GetOutputPins()[0]->GetID();
+	int sourcePinID = m_SourceNode->GetOutputPins()[0].GetID();
 
 	// Find the first true node
 	auto it = std::find_if(m_Links.begin(), m_Links.end(),
@@ -98,7 +98,7 @@ std::vector<std::shared_ptr<Node>> TextAdventureGame::GetDownstreamNodes(const s
 
 	// Iterate over the upstream node's output pins
 	// Seek all links originating from those pins
-	const std::vector<std::shared_ptr<OutputPin>>& outputPins = usNode->GetOutputPins();
+	const std::vector<OutputPin>& outputPins = usNode->GetOutputPins();
 	std::vector<int> dsPins;
 	dsPins.reserve(outputPins.size());
 	for (int k = 0; k < outputPins.size(); ++k) {
@@ -147,7 +147,7 @@ std::vector<std::shared_ptr<Node>> TextAdventureGame::GetDownstreamNodes(const s
 
 bool TextAdventureGame::HasInputPin(const std::shared_ptr<Node>& node, const int& id) {
 	for (auto& pin : node->GetInputPins()) {
-		if (pin->GetID() == id) { return true; }
+		if (pin.GetID() == id) { return true; }
 	}
 	return false;
 }
@@ -159,7 +159,7 @@ bool TextAdventureGame::ProcessNode(const std::shared_ptr<Node>& node, std::stri
 
 	// Make input pin labels
 	for (auto& inPin : node->GetInputPins()) {
-		m_OutputStream << ":PIN" << inPin->GetID() << "\n";
+		m_OutputStream << ":PIN" << inPin.GetID() << "\n";
 	}
 
 	// Clear the console and print this node's content and prompt
@@ -180,7 +180,7 @@ bool TextAdventureGame::ProcessNode(const std::shared_ptr<Node>& node, std::stri
 	m_OutputStream << "echo What would you like to do?\n";
 
 	// Get handle for the output pins
-	const std::vector<std::shared_ptr<OutputPin>>& oPins = node->GetOutputPins();
+	const std::vector<OutputPin>& oPins = node->GetOutputPins();
 
 	// Check for existence of some output pins
 	if (oPins.size() == 0) {
@@ -192,34 +192,34 @@ bool TextAdventureGame::ProcessNode(const std::shared_ptr<Node>& node, std::stri
 	// Print player options
 	for (auto& outPin : oPins) {
 		// Skip invalid pins
-		if (outPin->GetPinType() == OutputPin::InvalidInput) { continue; }
+		if (outPin.GetPinType() == OutputPin::InvalidInput) { continue; }
 
-		m_OutputStream << "echo " << outPin->GetMatchString() << "\n";
+		m_OutputStream << "echo " << outPin.GetMatchString() << "\n";
 	}
 
 	m_OutputStream << "set /p choice=Make your choice:\n";
 
 	// Handle user choice
 	// Get iterator for non-invalid input pins
-	auto invalidInputCheck = [](std::shared_ptr<OutputPin> pin) {
-		return pin->GetPinType() != OutputPin::InvalidInput;
+	auto invalidInputCheck = [](const OutputPin& pin) {
+		return pin.GetPinType() != OutputPin::InvalidInput;
 		};
 	auto it = std::find_if(oPins.begin(), oPins.end(), invalidInputCheck);
 
 	while (it != oPins.end()) {
-		const std::shared_ptr<OutputPin>& outPin = *it;
+		const OutputPin& outPin = *it;
 
 		// Skip if the invalid input pin
-		if (outPin->GetPinType() == OutputPin::InvalidInput) { continue; }
+		if (outPin.GetPinType() == OutputPin::InvalidInput) { continue; }
 
 		// Find id of linked pin
 		int linkID = std::find_if(m_Links.begin(), m_Links.end(),
 			[outPin](const std::pair<int, int> link) {
-				return link.first == outPin->GetID();
+				return link.first == outPin.GetID();
 			})->second;
 		// Print set option
 		m_OutputStream
-			<< "if \"%choice%\"==\"" << outPin->GetMatchString() << "\" (\n"
+			<< "if \"%choice%\"==\"" << outPin.GetMatchString() << "\" (\n"
 			<< "\tgoto PIN" << linkID << "\n"
 			<< ")\n";
 

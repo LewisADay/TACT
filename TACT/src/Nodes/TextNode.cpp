@@ -22,9 +22,6 @@ void TextNode::RenderProperties() {
 	ImGui::SameLine();
 	ImGui::InputText("##Title", &Title);
 
-	// ==== Terminating? ====
-	ImGui::Checkbox("Terminating?", &m_TerminatingNode);
-
 	// ==== Text ====
 	ImGui::Text("Text: ");
 	ImGui::SameLine();
@@ -42,7 +39,7 @@ void TextNode::RenderProperties() {
 	*/
 
 	// Display pin options
-	for (std::shared_ptr<InputPin>& pin : m_InputPins) {
+	for (InputPin& pin : m_InputPins) {
 		// TODO: When input variables done, uncomment
 		/* For now we only permit one input pin so don't delete it
 		// Delete button
@@ -56,34 +53,43 @@ void TextNode::RenderProperties() {
 		// Display pin
 		ImGui::SameLine();
 		ImGui::BeginGroup();
-		pin->RenderProperties();
+		pin.RenderProperties();
 		ImGui::EndGroup();
 	}
 
-	if (!m_TerminatingNode) {
-		// ==== Output Pins ====
-		ImGui::Text("Output Pins");
+	// ==== Output Pins ====
+	ImGui::Text("Output Pins");
 
-		// Add button
-		if (ImGui::Button("+##OutputPins")) {
-			AddOutputPin();
+	// Add button
+	if (ImGui::Button("+##OutputPins")) {
+		AddOutputPin();
+	}
+
+	if (m_OutputPins.empty()) {
+		ImGui::TextWrapped("No output pins. This node currently terminates the program flow.");
+	}
+
+	// Display pin options
+	std::vector<int> pinsToRemove; // Almost never more than 1, but you never know
+	for (OutputPin& pin : m_OutputPins) {
+		// Delete button
+		ImGui::PushID(pin.GetID());
+		if (ImGui::Button("-")) {
+			pinsToRemove.push_back(pin.GetID());
 		}
+		ImGui::PopID();
 
-		// Display pin options
-		for (std::shared_ptr<OutputPin>& pin : m_OutputPins) {
-			// Delete button
-			ImGui::PushID(pin->GetID());
-			if (ImGui::Button("-")) {
-				RemoveOutputPin(pin->GetID());
-			}
-			ImGui::PopID();
+		// Display pin
+		ImGui::SameLine();
+		ImGui::BeginGroup();
+		pin.RenderProperties();
+		ImGui::EndGroup();
+	}
 
-			// Display pin
-			ImGui::SameLine();
-			ImGui::BeginGroup();
-			pin->RenderProperties();
-			ImGui::EndGroup();
-		}
+	// We perform pin removal after display to avoid changing the elements of
+	// the vector during interation
+	for (int id : pinsToRemove) {
+		RemoveOutputPin(id);
 	}
 }
 
