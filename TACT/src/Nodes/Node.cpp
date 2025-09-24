@@ -12,8 +12,7 @@
 Node::Node(int id) :
 	m_ID(id),
 	Title("New Node"),
-	m_ContentStr(""),
-	m_TerminatingNode(false) {}
+	m_ContentStr("") {}
 
 void Node::Render() {
 
@@ -42,7 +41,7 @@ void Node::Render() {
 	
 
 	// Output attributes
-	if (!m_TerminatingNode) {
+	if (!IsTerminating()) {
 		ImGui::SameLine();
 		ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
 		ImGui::SameLine();
@@ -84,7 +83,7 @@ const std::string& Node::GetPrintableContent() {
 	return m_ContentStr;
 }
 
-bool Node::IsTerminating() { return m_TerminatingNode; }
+bool Node::IsTerminating() { return m_OutputPins.empty(); }
 
 int Node::GetNextPinID() { return ++_PinID; }
 

@@ -115,7 +115,6 @@ protected: // Protected members
 	/// </summary>
 	int m_ID;
 
-	bool m_TerminatingNode;
 	std::string m_ContentStr;
 	std::vector<InputPin> m_InputPins;
 	std::vector<OutputPin> m_OutputPins;
