@@ -93,13 +93,6 @@ public: // Public methods
 	/// <returns>If this node terminates the TAG</returns>
 	virtual bool IsTerminating();
 
-public: // Public members
-
-	/// <summary>
-	/// The title of the node
-	/// </summary>
-	std::string Title;
-
 protected: // Protected static methods
 
 	/// <summary>
@@ -115,6 +108,7 @@ protected: // Protected members
 	/// </summary>
 	int m_ID;
 
+	std::string m_Title;
 	std::string m_ContentStr;
 	std::vector<InputPin> m_InputPins;
 	std::vector<OutputPin> m_OutputPins;

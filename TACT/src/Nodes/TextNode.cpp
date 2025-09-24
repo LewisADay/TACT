@@ -20,7 +20,7 @@ void TextNode::RenderProperties() {
 	// ==== Title ====
 	ImGui::Text("Title: ");
 	ImGui::SameLine();
-	ImGui::InputText("##Title", &Title);
+	ImGui::InputText("##Title", &m_Title);
 
 	// ==== Text ====
 	ImGui::Text("Text: ");

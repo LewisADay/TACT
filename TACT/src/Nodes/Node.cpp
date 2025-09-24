@@ -11,7 +11,7 @@
 
 Node::Node(int id) :
 	m_ID(id),
-	Title("New Node"),
+	m_Title("New Node"),
 	m_ContentStr("") {}
 
 void Node::Render() {
@@ -20,7 +20,7 @@ void Node::Render() {
 	
 	// Start the title bar (simple text)
 	ImNodes::BeginNodeTitleBar();
-	ImGui::Text(Title.c_str());
+	ImGui::Text(m_Title.c_str());
 	ImNodes::EndNodeTitleBar();
 
 	// Input attributes
